@@ -27,7 +27,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  max-width: 1600px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -162,7 +162,7 @@
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
+  text-align: center;
 }
 
 .data-table th {
@@ -469,4 +469,90 @@
   .filter-selects select {
     min-width: 100%;
   }
+}
+.duration-running {
+    font-weight: 600;
+}
+
+.duration-closed {
+    font-weight: 600;
+}
+/* =========================================
+   INCIDENT TABLE - IMPROVED RESPONSIVENESS
+   ========================================= */
+
+.incident-table-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.incident-table {
+    min-width: 1250px;
+    width: 100%;
+}
+
+/* Keep important columns readable */
+.incident-table th,
+.incident-table td {
+    white-space: nowrap;
+}
+
+/* Subject can wrap */
+.incident-table .subject-cell {
+    min-width: 220px;
+    white-space: normal;
+}
+
+/* Department cells */
+.incident-table td > div {
+    line-height: 1.4;
+}
+
+.incident-table td small {
+    display: block;
+    margin-top: 3px;
+    opacity: 0.7;
+}
+
+/* Duration */
+.duration-running,
+.duration-closed {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .incident-table-container {
+        border-radius: 8px;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .incident-table {
+        min-width: 1200px;
+    }
+
+    .incident-table th,
+    .incident-table td {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .incident-table th {
+        font-size: 12px;
+    }
 }

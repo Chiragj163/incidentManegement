@@ -7,8 +7,8 @@ if (!JWT_SECRET) {
 }
 
 export interface JwtPayload {
-    userId: number;
-    userCode: string;
+    userId: number;       // users.id
+    userCode: string;     // SAP/User ID
     role: string;
     siteId: number | null;
     departmentId: number | null;

@@ -19,6 +19,139 @@ export interface LoginResponse {
         user: LoginUser;
     };
 }
+export interface MyProfile {
+    id: number;
+    user_id: string;
+    employee_code: string | null;
+    full_name: string;
+    email: string | null;
+    mobile: string | null;
+    designation: string | null;
+    status: string;
+
+    role_code: string;
+    role_name: string;
+
+    site_id: number | null;
+    site_code: string | null;
+    site_name: string | null;
+
+    department_id: number | null;
+    department_code: string | null;
+    department_name: string | null;
+
+    sub_department_id: number | null;
+    sub_department_code: string | null;
+    sub_department_name: string | null;
+}
+export const getMyProfile = async (): Promise<MyProfile> => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error("Authentication required");
+    }
+
+    const response = await fetch(
+        `${API_BASE_URL}/auth/me`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+        throw new Error(
+            data.message ||
+            "Failed to fetch profile"
+        );
+    }
+
+    return data.data;
+};
+
+
+export const updateMyProfile = async (
+    email: string,
+    mobile: string
+): Promise<MyProfile> => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error("Authentication required");
+    }
+
+    const response = await fetch(
+        `${API_BASE_URL}/auth/profile`,
+        {
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+
+            body: JSON.stringify({
+                email,
+                mobile,
+            }),
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+        throw new Error(
+            data.message ||
+            "Failed to update profile"
+        );
+    }
+
+    return data.data;
+};
+
+
+export const changeMyPassword = async (
+    currentPassword: string,
+    newPassword: string,
+    confirmPassword: string
+): Promise<void> => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error("Authentication required");
+    }
+
+    const response = await fetch(
+        `${API_BASE_URL}/auth/change-password`,
+        {
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+
+            body: JSON.stringify({
+                currentPassword,
+                newPassword,
+                confirmPassword,
+            }),
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+        throw new Error(
+            data.message ||
+            "Failed to change password"
+        );
+    }
+};
 export interface DashboardIncident {
     id: number;
     incident_no: string;
@@ -38,7 +171,10 @@ export interface DashboardIncident {
     from_department_name: string | null;
     to_department_name: string | null;
 
+    reported_by: number;
     reported_by_name: string | null;
+
+    assigned_to: number | null;
     assigned_to_name: string | null;
 
     created_at: string;
@@ -47,6 +183,7 @@ export interface DashboardIncident {
 
 export interface DashboardBoard {
     report: DashboardIncident[];
+    assigned: DashboardIncident[];
     working: DashboardIncident[];
     review: DashboardIncident[];
     finished: DashboardIncident[];

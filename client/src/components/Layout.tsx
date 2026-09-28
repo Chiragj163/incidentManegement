@@ -1,25 +1,114 @@
-import  { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { getCurrentUser, logout } from "../services/api";
 import NotificationBell from "./NotificationBell";
-import "./Layout.css"
+import "./Layout.css";
 
-// ── Icons (Same as previous) ──────────────────────────────────────────
+// ── Icons ─────────────────────────────────────────────────────────────
 const Icons = {
-  Menu: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>,
-  SubDepartments: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /> <polyline points="2 12 12 17 22 12" /> </svg>,
-  Close: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
-  Dashboard: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>,
-  Incidents: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
-  Sites: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>,
-  Departments: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>,
-  Users: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
-  AuditLogs: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>,
-  Reports: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
-  Logout: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+  Menu: () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+  ),
+  CollapseLeft: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M9 3v18" />
+      <path d="m16 15-3-3 3-3" />
+    </svg>
+  ),
+  ExpandRight: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M9 3v18" />
+      <path d="m13 15 3-3-3-3" />
+    </svg>
+  ),
+  Close: () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  ),
+  Dashboard: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" />
+      <rect x="14" y="3" width="7" height="7" />
+      <rect x="14" y="14" width="7" height="7" />
+      <rect x="3" y="14" width="7" height="7" />
+    </svg>
+  ),
+  Incidents: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+  ),
+  Sites: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  ),
+  Departments: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+      <path d="M9 22v-4h6v4" />
+      <path d="M8 6h.01" />
+      <path d="M16 6h.01" />
+      <path d="M12 6h.01" />
+      <path d="M12 10h.01" />
+      <path d="M12 14h.01" />
+      <path d="M16 10h.01" />
+      <path d="M16 14h.01" />
+      <path d="M8 10h.01" />
+      <path d="M8 14h.01" />
+    </svg>
+  ),
+  SubDepartments: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+      <polyline points="2 17 12 22 22 17" />
+      <polyline points="2 12 12 17 22 12" />
+    </svg>
+  ),
+  Users: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  ),
+  AuditLogs: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+      <polyline points="10 9 9 9 8 9" />
+    </svg>
+  ),
+  Reports: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10" />
+      <line x1="12" y1="20" x2="12" y2="4" />
+      <line x1="6" y1="20" x2="6" y2="14" />
+    </svg>
+  ),
+  Logout: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  )
 };
 
-// ── Navigation Config (Same as previous) ──────────────────────────────
 const NAVIGATION_SECTIONS = [
   {
     title: null,
@@ -58,17 +147,23 @@ const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const user = getCurrentUser();
+
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    return localStorage.getItem("sidebar_collapsed") === "true";
+  });
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const scrollContainerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // Mobile scroll lock
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
-      document.body.style.touchAction = "none"; // Prevents iOS overscroll
+      document.body.style.touchAction = "none";
     } else {
       document.body.style.overflow = "";
       document.body.style.touchAction = "";
@@ -79,9 +174,37 @@ const Layout = () => {
     };
   }, [mobileMenuOpen]);
 
+  useEffect(() => {
+    const scrollEl = scrollContainerRef.current;
+    if (!scrollEl) return;
+
+    const handleScroll = () => {
+      const scrolled = scrollEl.scrollTop > 10;
+      setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev));
+    };
+
+    scrollEl.addEventListener("scroll", handleScroll, { passive: true });
+    return () => scrollEl.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setIsScrolled(false);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
+  }, [location.pathname]);
+
+  const toggleDesktopCollapse = () => {
+    setIsCollapsed((prev) => {
+      const nextState = !prev;
+      localStorage.setItem("sidebar_collapsed", String(nextState));
+      return nextState;
+    });
+  };
+
   const filteredNavSections = useMemo(() => {
     if (!user) return [];
-    return NAVIGATION_SECTIONS.filter(section => {
+    return NAVIGATION_SECTIONS.filter((section) => {
       if (!section.roles) return true;
       return section.roles.includes(user.role);
     });
@@ -107,20 +230,60 @@ const Layout = () => {
         />
       )}
 
-      {/* Sidebar Drawer */}
+      {/* Sidebar Drawer / Rail */}
       <aside
-        className={`sidebar ${mobileMenuOpen ? "sidebar--open" : ""}`}
+        className={`sidebar ${isCollapsed ? "sidebar--collapsed" : ""} ${
+          mobileMenuOpen ? "sidebar--open" : ""
+        }`}
         aria-label="Application Navigation"
       >
         <div className="sidebar-header">
-          <div className="sidebar-brand">
-            <div className="sidebar-brand-icon">IM</div>
+          {/* Logo container: clicking when collapsed expands the sidebar */}
+          <div
+            className="sidebar-brand"
+            onClick={isCollapsed ? toggleDesktopCollapse : undefined}
+            title={isCollapsed ? "Expand sidebar" : undefined}
+            role={isCollapsed ? "button" : undefined}
+            tabIndex={isCollapsed ? 0 : undefined}
+            onKeyDown={(e) => {
+              if (isCollapsed && (e.key === "Enter" || e.key === " ")) {
+                toggleDesktopCollapse();
+              }
+            }}
+          >
+            <div className="sidebar-brand-icon">
+              {/* Default Logo Image */}
+              <img
+                src="/images.svg"
+                alt="Logo"
+                className="brand-logo-img"
+              />
+              {/* Expand icon that appears on hover when collapsed */}
+              <span className="brand-expand-hover-icon" aria-hidden="true">
+                <Icons.ExpandRight />
+              </span>
+            </div>
+
             <div className="sidebar-brand-text">
-              <span className="brand-title">Incident</span>
+              <span className="brand-title">Incident</span><div/>
               <span className="brand-subtitle">Management</span>
             </div>
           </div>
+
+          {/* Collapse icon shown when expanded on desktop */}
           <button
+            type="button"
+            className="sidebar-collapse-btn"
+            onClick={toggleDesktopCollapse}
+            title="Collapse sidebar"
+            aria-label="Collapse sidebar"
+          >
+            <Icons.CollapseLeft />
+          </button>
+
+          {/* Mobile close button */}
+          <button
+            type="button"
             className="sidebar-close-btn"
             onClick={() => setMobileMenuOpen(false)}
             aria-label="Close sidebar"
@@ -144,6 +307,7 @@ const Layout = () => {
                     className={({ isActive }) =>
                       `nav-item ${isActive ? "nav-item--active" : ""}`
                     }
+                    title={isCollapsed ? item.label : undefined}
                   >
                     <span className="nav-icon" aria-hidden="true">
                       <IconComponent />
@@ -157,44 +321,61 @@ const Layout = () => {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="user-profile">
+          <div
+              className="user-profile"
+              title={
+                  isCollapsed
+                      ? `${user.fullName} (${user.roleName || user.role})`
+                      : "Open User Settings"
+              }
+              onClick={() => navigate("/settings")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                      navigate("/settings");
+                  }
+              }}
+          >
             <div className="user-avatar" aria-hidden="true">
               {userInitial}
             </div>
             <div className="user-meta">
-              <span className="user-name">{user.fullName}</span>
+              <span className="user-name">{user.fullName}</span><div/>
               <span className="user-role">{user.roleName || user.role}</span>
             </div>
           </div>
+
           <button
+            type="button"
             className="logout-btn"
             onClick={handleLogout}
             title="Sign out of system"
             aria-label="Sign out"
           >
-            <Icons.Logout />
-            <span>Sign Out</span>
+            <span className="logout-icon" aria-hidden="true">
+              <Icons.Logout />
+            </span>
+            <span className="logout-text">Sign Out</span>
           </button>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <div className="main-area">
-        <header className="top-header">
+      <div className={`main-area ${isCollapsed ? "main-area--collapsed" : ""}`}>
+        <header className={`top-header ${isScrolled ? "top-header--scrolled" : ""}`}>
           <div className="top-header-left">
             <button
+              type="button"
               className="menu-trigger-btn"
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open sidebar menu"
-              aria-expanded={mobileMenuOpen}
+              aria-label="Open mobile menu"
             >
               <Icons.Menu />
             </button>
-            
-            {/* Added Title Container for mobile truncation */}
+
             <div className="title-container">
-                <h1 className="page-heading">Incident Management</h1>
-                {/* <h5 className="page-heading fw-bold text-dark mb-0 lh-1">{activePage || "Dashboard"}</h5> */}
+              <h1 className="page-heading">Incident Management</h1>
             </div>
           </div>
 
@@ -213,7 +394,11 @@ const Layout = () => {
           </div>
         </header>
 
-        <main className="page-content" id="main-content">
+        <main
+          className="page-content"
+          id="main-content"
+          ref={scrollContainerRef}
+        >
           <Outlet />
         </main>
       </div>

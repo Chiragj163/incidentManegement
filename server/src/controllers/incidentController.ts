@@ -925,9 +925,11 @@ export const getIncidents = async (
             const userParam = params.length;
 
             conditions.push(`
+                (
                 i.reported_by = $${userParam}
                 or
                 i.assigned_to = $${userParam}
+                )
             `);
         }  
         /*
@@ -961,13 +963,36 @@ export const getIncidents = async (
         }
 
         if (search) {
-            params.push(`%${String(search)}%`);
+            params.push(`%${String(search).trim()}%`);
+
+            const searchParam = params.length;
 
             conditions.push(`
                 (
-                    i.incident_no ILIKE $${params.length}
-                    OR i.subject ILIKE $${params.length}
-                    OR i.description ILIKE $${params.length}
+                    i.incident_no ILIKE $${searchParam}
+                    OR i.subject ILIKE $${searchParam}
+                    OR i.description ILIKE $${searchParam}
+
+                    OR s.site_code ILIKE $${searchParam}
+                    OR s.site_name ILIKE $${searchParam}
+
+                    OR fd.department_code ILIKE $${searchParam}
+                    OR fd.department_name ILIKE $${searchParam}
+
+                    OR fsd.sub_department_code ILIKE $${searchParam}
+                    OR fsd.sub_department_name ILIKE $${searchParam}
+
+                    OR td.department_code ILIKE $${searchParam}
+                    OR td.department_name ILIKE $${searchParam}
+
+                    OR tsd.sub_department_code ILIKE $${searchParam}
+                    OR tsd.sub_department_name ILIKE $${searchParam}
+
+                    OR reporter.user_id ILIKE $${searchParam}
+                    OR reporter.full_name ILIKE $${searchParam}
+
+                    OR assigned.user_id ILIKE $${searchParam}
+                    OR assigned.full_name ILIKE $${searchParam}
                 )
             `);
         }
@@ -2154,6 +2179,16 @@ export const reviewIncident = async (
                 UPDATE incidents
                 SET
                     status = 'REOPENED',
+                    assigned_to = NULL,
+                    assignment_deadline_at = NOW() +
+                        CASE priority
+                            WHEN 'CRITICAL' THEN INTERVAL '5 minutes'
+                            WHEN 'HIGH' THEN INTERVAL '10 minutes'
+                            WHEN 'MEDIUM' THEN INTERVAL '15 minutes'
+                            WHEN 'LOW' THEN INTERVAL '30 minutes'
+                            ELSE INTERVAL '15 minutes'
+                        END,
+                    auto_assigned_at = NULL,
                     closed_at = NULL,
                     updated_at = NOW()
                 WHERE id = $1
@@ -2898,7 +2933,10 @@ export const getDashboardStats = async (
                 fd.department_name AS from_department_name,
                 td.department_name AS to_department_name,
 
+                i.reported_by,
                 reporter.full_name AS reported_by_name,
+
+                i.assigned_to,
                 assignee.full_name AS assigned_to_name,
 
                 i.created_at,
@@ -2940,7 +2978,11 @@ export const getDashboardStats = async (
         const board = {
             report: boardResult.rows.filter(
                 (incident) =>
-                    incident.status === "REPORTED" ||
+                    incident.status === "REPORTED"
+            ),
+
+            assigned: boardResult.rows.filter(
+                (incident) =>
                     incident.status === "ASSIGNED"
             ),
 

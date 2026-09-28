@@ -14,13 +14,62 @@ import "./IncidentDetails.css";
 
 // ── Icons ─────────────────────────────────────────────────────────────
 const Icons = {
-  Back: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>,
-  ArrowRight: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
-  CheckCircle: () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
-  AlertCircle: () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
-  File: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>,
-  Download: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
-  ExternalLink: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+  Back: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12" />
+      <polyline points="12 19 5 12 12 5" />
+    </svg>
+  ),
+  ArrowRight: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </svg>
+  ),
+  ArrowDown: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <polyline points="19 12 12 19 5 12" />
+    </svg>
+  ),
+  CheckCircle: () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
+  ),
+  AlertCircle: () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+  ),
+  File: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+    </svg>
+  ),
+  Download: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  ),
+  ExternalLink: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  ),
+  Spinner: () => (
+    <svg className="details-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
+  )
 };
 
 const IncidentDetails = () => {
@@ -90,21 +139,17 @@ const IncidentDetails = () => {
   }, [data?.incident]);
 
   useEffect(() => {
-  const user = getCurrentUser();
-
-  if (user) {
-    setCurrentUser({
-      id: Number(user.id),
-      userId: user.userId,
-      role: user.role,
-      siteId: user.siteId !== null ? Number(user.siteId) : null,
-      departmentId:
-        user.departmentId !== null
-          ? Number(user.departmentId)
-          : null,
-    });
-  }
-}, []);
+    const user = getCurrentUser();
+    if (user) {
+      setCurrentUser({
+        id: Number(user.id),
+        userId: user.userId,
+        role: user.role,
+        siteId: user.siteId !== null ? Number(user.siteId) : null,
+        departmentId: user.departmentId !== null ? Number(user.departmentId) : null
+      });
+    }
+  }, []);
 
   useEffect(() => {
     loadIncident();
@@ -195,7 +240,6 @@ const IncidentDetails = () => {
     }
   };
 
-  // ── Formatters ──────────────────────────────────────────────────────
   const formatDate = (value: string | null | undefined) => {
     if (!value) return "—";
     return new Date(value).toLocaleString("en-IN", {
@@ -238,33 +282,23 @@ const IncidentDetails = () => {
   }
 
   const { incident, assignments, resolutionCycles, reviews, statusHistory, updates, attachments } = data;
-    const isSuperAdmin =
-  currentUser?.role === "SUPER_ADMIN";
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
+  const isAssignedToMe = currentUser && Number(incident.assigned_to) === currentUser.id;
+  const isReportedByMe = currentUser && Number(incident.reported_by) === currentUser.id;
 
-const isAssignedToMe =
-  currentUser &&
-  Number(incident.assigned_to) === currentUser.id;
-
-const isReportedByMe =
-  currentUser &&
-  Number(incident.reported_by) === currentUser.id;
-
-const canAssignIncident =
-  isSuperAdmin ||
-  (
-    currentUser?.role === "DEPARTMENT_ADMIN" &&
-    currentUser.siteId !== null &&
-    currentUser.departmentId !== null &&
-    Number(currentUser.siteId) === Number(incident.to_site_id) &&
-    Number(currentUser.departmentId) === Number(incident.to_department_id)
-  );
-
+  const canAssignIncident =
+    isSuperAdmin ||
+    (currentUser?.role === "DEPARTMENT_ADMIN" &&
+      currentUser.siteId !== null &&
+      currentUser.departmentId !== null &&
+      Number(currentUser.siteId) === Number(incident.to_site_id) &&
+      Number(currentUser.departmentId) === Number(incident.to_department_id));
 
   return (
     <div className="incident-details-page">
       {/* ── Top Navigation & Title Bar ── */}
       <div className="details-header-bar">
-        <div>
+        <div className="header-nav-title">
           <button className="btn-back" onClick={() => navigate("/incidents")}>
             <Icons.Back /> <span>Incidents</span>
           </button>
@@ -338,7 +372,7 @@ const canAssignIncident =
                       onClick={handleAssign}
                       disabled={actionLoading || !selectedUser}
                     >
-                      {actionLoading ? "Assigning..." : "Assign Incident"}
+                      {actionLoading ? <><Icons.Spinner /> Assigning...</> : "Assign Incident"}
                     </button>
                   </div>
                 </div>
@@ -356,7 +390,7 @@ const canAssignIncident =
                       onClick={handleStartWork}
                       disabled={actionLoading}
                     >
-                      {actionLoading ? "Updating..." : "Start Working Now"}
+                      {actionLoading ? <><Icons.Spinner /> Updating...</> : "Start Working Now"}
                     </button>
                   </div>
                 </div>
@@ -391,7 +425,7 @@ const canAssignIncident =
                       onClick={handleComplete}
                       disabled={actionLoading}
                     >
-                      {actionLoading ? "Submitting..." : "Mark Complete & Submit for Review"}
+                      {actionLoading ? <><Icons.Spinner /> Submitting...</> : "Mark Complete & Submit for Review"}
                     </button>
                   </div>
                 </div>
@@ -417,20 +451,20 @@ const canAssignIncident =
                       onClick={() => handleReview("APPROVED")}
                       disabled={actionLoading}
                     >
-                      <Icons.CheckCircle /> Approve & Finish
+                      {actionLoading ? <Icons.Spinner /> : <Icons.CheckCircle />} Approve & Finish
                     </button>
                     <button
                       className="btn-action-danger"
                       onClick={() => handleReview("REOPENED")}
                       disabled={actionLoading}
                     >
-                      <Icons.AlertCircle /> Reopen Incident
+                      {actionLoading ? <Icons.Spinner /> : <Icons.AlertCircle />} Reopen Incident
                     </button>
                   </div>
                 </div>
               )}
 
-              {/* Static Notification if no actionable control applies */}
+              {/* Passive Notice */}
               {((incident.status === "REPORTED" && !canAssignIncident) ||
                 (incident.status === "ASSIGNED" && !isAssignedToMe) ||
                 (incident.status === "WORKING" && !isAssignedToMe) ||
@@ -490,6 +524,7 @@ const canAssignIncident =
                           rel="noreferrer"
                           className="btn-icon-link"
                           title="Preview"
+                          aria-label="Preview attachment"
                         >
                           <Icons.ExternalLink />
                         </a>
@@ -498,6 +533,7 @@ const canAssignIncident =
                           download={att.file_name}
                           className="btn-icon-link"
                           title="Download"
+                          aria-label="Download attachment"
                         >
                           <Icons.Download />
                         </a>
@@ -513,37 +549,49 @@ const canAssignIncident =
 
           {/* Tabbed Audit / Activity Log */}
           <div className="content-card tabbed-card">
-            <div className="tab-bar">
-              <button
-                className={`tab-btn ${activeTab === "cycles" ? "tab-active" : ""}`}
-                onClick={() => setActiveTab("cycles")}
-              >
-                Cycles ({resolutionCycles.length})
-              </button>
-              <button
-                className={`tab-btn ${activeTab === "assignments" ? "tab-active" : ""}`}
-                onClick={() => setActiveTab("assignments")}
-              >
-                Assignments ({assignments.length})
-              </button>
-              <button
-                className={`tab-btn ${activeTab === "reviews" ? "tab-active" : ""}`}
-                onClick={() => setActiveTab("reviews")}
-              >
-                Reviews ({reviews.length})
-              </button>
-              <button
-                className={`tab-btn ${activeTab === "status" ? "tab-active" : ""}`}
-                onClick={() => setActiveTab("status")}
-              >
-                History ({statusHistory.length})
-              </button>
-              <button
-                className={`tab-btn ${activeTab === "updates" ? "tab-active" : ""}`}
-                onClick={() => setActiveTab("updates")}
-              >
-                Updates ({updates.length})
-              </button>
+            <div className="tab-scroll-wrapper">
+              <div className="tab-bar" role="tablist">
+                <button
+                  role="tab"
+                  aria-selected={activeTab === "cycles"}
+                  className={`tab-btn ${activeTab === "cycles" ? "tab-active" : ""}`}
+                  onClick={() => setActiveTab("cycles")}
+                >
+                  Cycles ({resolutionCycles.length})
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={activeTab === "assignments"}
+                  className={`tab-btn ${activeTab === "assignments" ? "tab-active" : ""}`}
+                  onClick={() => setActiveTab("assignments")}
+                >
+                  Assignments ({assignments.length})
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={activeTab === "reviews"}
+                  className={`tab-btn ${activeTab === "reviews" ? "tab-active" : ""}`}
+                  onClick={() => setActiveTab("reviews")}
+                >
+                  Reviews ({reviews.length})
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={activeTab === "status"}
+                  className={`tab-btn ${activeTab === "status" ? "tab-active" : ""}`}
+                  onClick={() => setActiveTab("status")}
+                >
+                  History ({statusHistory.length})
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={activeTab === "updates"}
+                  className={`tab-btn ${activeTab === "updates" ? "tab-active" : ""}`}
+                  onClick={() => setActiveTab("updates")}
+                >
+                  Updates ({updates.length})
+                </button>
+              </div>
             </div>
 
             <div className="tab-pane">
@@ -629,12 +677,12 @@ const canAssignIncident =
                   {statusHistory.map((s) => (
                     <div key={s.id} className="status-flow-item">
                       <div className="status-transition">
-                        <span>{formatStatus(s.old_status || "ORIGIN")}</span>
+                        <span className="truncate-text">{formatStatus(s.old_status || "ORIGIN")}</span>
                         <Icons.ArrowRight />
-                        <strong>{formatStatus(s.new_status)}</strong>
+                        <strong className="truncate-text">{formatStatus(s.new_status)}</strong>
                       </div>
                       <div className="status-meta">
-                        <span>{s.changed_by_name || "System"}</span>
+                        <span className="truncate-text">{s.changed_by_name || "System"}</span>
                         <small>{formatDate(s.created_at)}</small>
                       </div>
                     </div>
@@ -673,19 +721,20 @@ const canAssignIncident =
             <div className="routing-tree">
               <div className="routing-node">
                 <span className="routing-label">Originating Source</span>
-                <strong>{incident.from_department_name}</strong>
+                <strong className="truncate-text">{incident.from_department_name}</strong>
                 {incident.from_sub_department_name && (
-                  <small>{incident.from_sub_department_name}</small>
+                  <small className="truncate-text">{incident.from_sub_department_name}</small>
                 )}
               </div>
-              <div className="routing-separator">
-                <Icons.ArrowRight />
+              <div className="routing-separator" aria-hidden="true">
+                <span className="sep-desktop"><Icons.ArrowRight /></span>
+                <span className="sep-mobile"><Icons.ArrowDown /></span>
               </div>
               <div className="routing-node">
                 <span className="routing-label">Destination Handler</span>
-                <strong>{incident.to_department_name}</strong>
+                <strong className="truncate-text">{incident.to_department_name}</strong>
                 {incident.to_sub_department_name && (
-                  <small>{incident.to_sub_department_name}</small>
+                  <small className="truncate-text">{incident.to_sub_department_name}</small>
                 )}
               </div>
             </div>
@@ -697,17 +746,17 @@ const canAssignIncident =
             <div className="person-row">
               <span className="person-role-label">Reported By</span>
               <div className="person-meta">
-                <strong>{incident.reporter_name || `User #${incident.reported_by}`}</strong>
-                {incident.reporter_user_id && <small>{incident.reporter_user_id}</small>}
+                <strong className="truncate-text">{incident.reporter_name || `User #${incident.reported_by}`}</strong>
+                {incident.reporter_user_id && <small className="truncate-text">{incident.reporter_user_id}</small>}
               </div>
             </div>
             <div className="person-row">
-  <span className="person-role-label">Assigned To</span>
-  <div className="person-meta">
-    <strong>{incident.assigned_user_name || "Unassigned"}</strong>
-    {incident.assigned_user_id && <small>{incident.assigned_user_id}</small>}
-  </div>
-</div>
+              <span className="person-role-label">Assigned To</span>
+              <div className="person-meta">
+                <strong className="truncate-text">{incident.assigned_user_name || "Unassigned"}</strong>
+                {incident.assigned_user_id && <small className="truncate-text">{incident.assigned_user_id}</small>}
+              </div>
+            </div>
           </div>
 
           {/* Properties Summary */}
@@ -715,8 +764,8 @@ const canAssignIncident =
             <h3 className="card-section-title">Properties</h3>
             <div className="props-list">
               <div className="prop-item">
-                <span>Site</span>
-                <strong>{incident.site_name || "—"}</strong>
+                <span>Facility Site</span>
+                <strong className="truncate-text">{incident.site_name || "—"}</strong>
               </div>
               <div className="prop-item">
                 <span>Reported On</span>

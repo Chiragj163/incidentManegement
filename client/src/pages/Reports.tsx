@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   getIncidentReport,
   getSites,
@@ -123,6 +123,29 @@ const Reports = () => {
     loadInitialData();
   }, [loadInitialData]);
 
+  useEffect(() => {
+    const loadDepartmentsForSite = async () => {
+      try {
+        if (!siteId) {
+          const departmentList = await getDepartments();
+          setDepartments(departmentList);
+          return;
+        }
+
+        const departmentList = await getDepartments(Number(siteId));
+        setDepartments(departmentList);
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load departments."
+        );
+      }
+    };
+
+    loadDepartmentsForSite();
+  }, [siteId]);
+
   const resetFilters = async () => {
     setSiteId("");
     setDepartmentId("");
@@ -205,10 +228,7 @@ const Reports = () => {
     val ? val.split("_").map((w) => w.charAt(0) + w.slice(1).toLowerCase()).join(" ") : "";
 
   // Cascading site -> departments
-  const availableDepartments = useMemo(() => {
-    if (!siteId) return departments;
-    return departments.filter((d) => d.site_id === Number(siteId));
-  }, [departments, siteId]);
+  const availableDepartments = departments;
 
   if (initialLoading) {
     return (

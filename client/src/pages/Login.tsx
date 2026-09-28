@@ -102,11 +102,17 @@ const Login = () => {
           
           {/* Header & Branding */}
           <div className="login-header">
-            <div className="brand-badge">
-              <span className="brand-logo-text">IM</span>
+            <div className="d-inline-flex align-items-center justify-content-center p-2 rounded-3 bg-white shadow-sm mb-3 border"style={{ width: "56px", height: "56px" }}>
+              <img 
+                src="/images.svg" 
+                alt="Logo" 
+                className="object-fit-contain" 
+                style={{ width: "46px", height: "46px" }} 
+              />
+
             </div>
             <h1>Incident Management</h1>
-            <p>Enterprise Cross-Department Incident Portal</p>
+            {/* <p>Enterprise Cross-Department Incident Portal</p> */}
           </div>
 
           {/* Error Banner */}
@@ -192,15 +198,15 @@ const Login = () => {
           {/* Card Footer */}
           <div className="login-footer">
             <span className="security-tag">
-              <Icons.ShieldLock /> Secure Enterprise Access
+              <Icons.ShieldLock /> Secure Access
             </span>
-            <p>Use your designated organizational credentials to log in.</p>
+            {/* <p>Use your designated organizational credentials to log in.</p> */}
           </div>
         </div>
 
         {/* Global Copyright / Disclaimer Sub-footer */}
         <div className="login-system-meta">
-          <span>Incident Management System • v2.4</span>
+          {/* <span>Incident Management System • v2.4</span> */}
         </div>
 
       </div>

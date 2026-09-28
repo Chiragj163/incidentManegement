@@ -572,7 +572,7 @@ export default function Departments() {
             <div className="dp-modal-header">
               <div>
                 <h2>{editingDepartment ? "Edit Department" : "Add Department"}</h2>
-                <p>Configure department codes, site mapping, and administrative leads</p>
+                {/* <p>Configure department codes, site mapping, and administrative leads</p> */}
               </div>
               <button
                 type="button"
@@ -613,7 +613,7 @@ export default function Departments() {
                         </option>
                       ))}
                   </select>
-                  <small className="field-hint">Assigns department jurisdiction to a site</small>
+                  {/* <small className="field-hint">Assigns department jurisdiction to a site</small> */}
                 </div>
 
                 <div className="dp-form-grid-2">

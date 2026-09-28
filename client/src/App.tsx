@@ -14,6 +14,7 @@ import SubDepartments from "./pages/SubDepartments";
 import Users from "./pages/Users";
 import Reports from "./pages/Reports";
 import AuditLogs from "./pages/AuditLogs";
+import UserSettings from "./pages/UserSettings";
 
 
 const App = () => {
@@ -73,7 +74,11 @@ const App = () => {
                         path="/audit-logs"
                         element={<AuditLogs />}
                     />
-
+                    
+                    <Route
+                        path="/settings"
+                        element={<UserSettings />}
+                    />
                 </Route>
 
             </Route>

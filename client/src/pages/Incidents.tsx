@@ -24,6 +24,15 @@ const Incidents = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [priority, setPriority] = useState("");
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+      const interval = setInterval(() => {
+          setNow(Date.now());
+      }, 60000);
+
+      return () => clearInterval(interval);
+  }, []);
 
   const loadIncidents = useCallback(async () => {
     try {
@@ -48,12 +57,57 @@ const Incidents = () => {
   }, [loadIncidents]);
 
   // ── Formatters ──────────────────────────────────────────────────────
-  const formatDate = (value: string) => {
-    if (!value) return "N/A";
-    return new Date(value).toLocaleString("en-IN", {
-      day: "2-digit", month: "short", year: "numeric",
-      hour: "2-digit", minute: "2-digit"
-    });
+  const formatDate = (value?: string | null) => {
+      if (!value) {
+          return "—";
+      }
+
+      return new Date(value).toLocaleString("en-IN");
+  };
+
+  const formatDuration = (
+      start?: string | null,
+      end?: string | null
+  ) => {
+      if (!start) {
+          return "—";
+      }
+
+      const startTime = new Date(start).getTime();
+
+      const endTime = end
+          ? new Date(end).getTime()
+          : now;
+
+      const difference = Math.max(
+          0,
+          endTime - startTime
+      );
+
+      const totalMinutes = Math.floor(
+          difference / 60000
+      );
+
+      const days = Math.floor(
+          totalMinutes / 1440
+      );
+
+      const hours = Math.floor(
+          (totalMinutes % 1440) / 60
+      );
+
+      const minutes =
+          totalMinutes % 60;
+
+      if (days > 0) {
+          return `${days}d ${hours}h ${minutes}m`;
+      }
+
+      if (hours > 0) {
+          return `${hours}h ${minutes}m`;
+      }
+
+      return `${minutes}m`;
   };
 
   const formatStatus = (value: string) => {
@@ -89,7 +143,7 @@ const Incidents = () => {
           <Icons.Search />
           <input
             type="text"
-            placeholder="Search by ID, Subject, or Site..."
+            placeholder="Search incident, subject, site, department, user..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -164,6 +218,8 @@ const Incidents = () => {
                       <th>Status</th>
                       <th>Assigned To</th>
                       <th>Reported On</th>
+                      <th>Closed On</th>
+                      <th>Duration</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -203,6 +259,8 @@ const Incidents = () => {
                           </div>
                         </td>
                         <td className="text-muted text-small">{formatDate(incident.created_at)}</td>
+                        <td >{formatDate(incident.closed_at)}</td>
+                        <td> <span className={incident.closed_at ? "duration-closed" : "duration-running"}>{formatDuration(incident.created_at,incident.closed_at)}</span></td>
                         <td>
                           <button 
                             className="btn-icon" 
