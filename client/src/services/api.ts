@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://192.168.100.186:5000/api";
 
 export interface LoginUser {
     id: string;
@@ -1894,4 +1894,70 @@ export const getAuditLogs = async (
     }
 
     return data.data;
+};
+
+export const savePushSubscription = async (
+    subscription: PushSubscription
+): Promise<void> => {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error("Authentication required");
+    }
+
+    const subscriptionJson = subscription.toJSON();
+
+    const response = await fetch(
+        `${API_BASE_URL}/push/subscribe`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                endpoint: subscription.endpoint,
+                keys: {
+                    p256dh: subscriptionJson.keys?.p256dh,
+                    auth: subscriptionJson.keys?.auth,
+                },
+            }),
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+        throw new Error(
+            data.message || "Failed to save push subscription"
+        );
+    }
+};
+
+export const removePushSubscription = async (
+    subscription: PushSubscription
+): Promise<void> => {
+    const token = getToken();
+
+    if (!token) {
+        return;
+    }
+
+    const response = await fetch(
+        `${API_BASE_URL}/push/unsubscribe`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                endpoint: subscription.endpoint,
+            }),
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to remove push subscription");
+    }
 };

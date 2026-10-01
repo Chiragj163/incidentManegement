@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { getCurrentUser, logout } from "../services/api";
 import NotificationBell from "./NotificationBell";
+import { enablePushNotifications } from "../services/pushService";
+import OfflineBanner from "./OfflineBanner";
 import "./Layout.css";
 
 // ── Icons ─────────────────────────────────────────────────────────────
@@ -194,6 +196,10 @@ const Layout = () => {
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    enablePushNotifications();
+  }, []);
+
   const toggleDesktopCollapse = () => {
     setIsCollapsed((prev) => {
       const nextState = !prev;
@@ -221,6 +227,7 @@ const Layout = () => {
 
   return (
     <div className="app-layout">
+      <OfflineBanner />
       {/* Mobile Backdrop */}
       {mobileMenuOpen && (
         <div

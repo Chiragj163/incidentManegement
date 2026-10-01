@@ -796,3 +796,32 @@ CREATE TRIGGER trg_validate_incident_hierarchy
 BEFORE INSERT OR UPDATE ON incidents
 FOR EACH ROW
 EXECUTE FUNCTION validate_incident_hierarchy();
+
+-- --------------------------------------------------------
+-- PUSH SUBSCRIPTIONS
+-- --------------------------------------------------------
+
+CREATE TABLE push_subscriptions (
+    id BIGSERIAL PRIMARY KEY,
+
+    user_id BIGINT NOT NULL,
+
+    endpoint TEXT NOT NULL UNIQUE,
+
+    p256dh TEXT NOT NULL,
+
+    auth TEXT NOT NULL,
+
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT fk_push_subscriptions_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX idx_push_subscriptions_user
+    ON push_subscriptions(user_id);
+

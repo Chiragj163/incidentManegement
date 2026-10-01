@@ -15,11 +15,14 @@ import Users from "./pages/Users";
 import Reports from "./pages/Reports";
 import AuditLogs from "./pages/AuditLogs";
 import UserSettings from "./pages/UserSettings";
+import PWAUpdatePrompt from "./components/PWAUpdatePrompt";
 
 
 const App = () => {
     return (
-        <Routes>
+        <>
+            <PWAUpdatePrompt />
+            <Routes>
 
             {/* Public */}
             <Route
@@ -105,7 +108,8 @@ const App = () => {
                 }
             />
 
-        </Routes>
+            </Routes>
+        </>
     );
 };
 

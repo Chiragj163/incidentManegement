@@ -5,7 +5,13 @@ const createSuperAdmin = async () => {
     try {
         const sapId = "100000";
         const fullName = "System Administrator";
-        const password = "REMOVED_FROM_GIT_HISTORY";
+        const password = process.env.SUPER_ADMIN_PASSWORD;
+
+        if (!password) {
+            throw new Error(
+                "SUPER_ADMIN_PASSWORD is not configured"
+            );
+        }
 
         // Check whether Super Admin already exists
         const existingUser = await query(
