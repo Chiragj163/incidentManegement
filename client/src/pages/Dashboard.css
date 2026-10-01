@@ -1016,3 +1016,737 @@
     justify-content: center;
   }
 }
+/* =========================================================
+   MOBILE UI POLISH
+   Dashboard
+   ========================================================= */
+
+@media (max-width: 1024px) {
+
+    /* ─────────────────────────────────────────────────────
+       Dashboard page
+       ───────────────────────────────────────────────────── */
+
+    .dashboard-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 0 1.25rem;
+        gap: 1rem;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    .dashboard-view-content {
+        width: 100%;
+        min-width: 0;
+        gap: 1rem;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       Header / filter toolbar
+       ───────────────────────────────────────────────────── */
+
+    .dashboard-header-bar {
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .dashboard-controls-row {
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .filter-pill-group {
+        min-width: 0;
+        flex: 1 1 auto;
+        width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-pill-group::-webkit-scrollbar {
+        display: none;
+    }
+
+    .filter-pill-btn {
+        min-height: 40px;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.78rem;
+        flex: 1 0 auto;
+    }
+
+    .btn-icon-action {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       Error / action message
+       ───────────────────────────────────────────────────── */
+
+    .dashboard-action-toast {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.75rem;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    .toast-content {
+        min-width: 0;
+        flex: 1;
+        align-items: flex-start;
+    }
+
+    .toast-content span {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .toast-dismiss {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        justify-content: center;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       Custom date filter
+       ───────────────────────────────────────────────────── */
+
+    .custom-date-bar {
+        width: 100%;
+        padding: 0.85rem;
+        box-sizing: border-box;
+    }
+
+    .date-field {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .input-with-icon {
+        width: 100%;
+    }
+
+    .input-with-icon input[type="date"] {
+        width: 100%;
+        height: 44px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    .btn-apply-filter {
+        min-height: 44px;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       KPI cards
+       ───────────────────────────────────────────────────── */
+
+    .kpi-grid {
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.65rem;
+    }
+
+    .kpi-card {
+        min-width: 0;
+        padding: 0.85rem;
+        gap: 0.7rem;
+        border-radius: 10px;
+    }
+
+    .kpi-icon-box {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+    }
+
+    .kpi-details {
+        min-width: 0;
+    }
+
+    .kpi-label {
+        font-size: 0.65rem;
+        line-height: 1.2;
+    }
+
+    .kpi-number {
+        font-size: 1.35rem;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       Incident board
+       ───────────────────────────────────────────────────── */
+
+    .dashboard-section {
+        width: 100%;
+        min-width: 0;
+        gap: 0.65rem;
+    }
+
+    .section-title-row {
+        padding: 0 0.1rem;
+    }
+
+    .section-title-row h2 {
+        font-size: 1rem;
+    }
+
+    .kanban-scroll-wrapper {
+        width: 100%;
+        max-width: 100vw;
+        margin: 0;
+        padding: 0 0 0.65rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .kanban-board-grid {
+        width: max-content;
+        min-width: max-content;
+        grid-template-columns: repeat(5, minmax(285px, 82vw));
+        gap: 0.75rem;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       Kanban column
+       ───────────────────────────────────────────────────── */
+
+    .board-column {
+        width: 100%;
+        min-width: 0;
+        max-height: 560px;
+        min-height: 0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .column-header {
+        min-height: 58px;
+        padding: 0.7rem 0.8rem;
+        box-sizing: border-box;
+    }
+
+    .column-title-group {
+        min-width: 0;
+        gap: 0.5rem;
+    }
+
+    .column-status-icon {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+    }
+
+    .column-title-group > div:last-child {
+        min-width: 0;
+    }
+
+    .column-title-group h3 {
+        font-size: 0.82rem;
+        white-space: nowrap;
+    }
+
+    .column-title-group span {
+        display: block;
+        font-size: 0.67rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .column-badge {
+        min-width: 26px;
+        text-align: center;
+        padding: 3px 6px;
+    }
+
+    /* The list scrolls, cards don't shrink */
+    .column-card-list {
+        flex: 1 1 auto;
+        min-width: 0;
+        min-height: 0;
+        padding: 0.65rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 0.6rem;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       Incident cards
+       ───────────────────────────────────────────────────── */
+
+    .board-card {
+        flex: 0 0 auto;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 0.75rem;
+        gap: 0.55rem;
+        border-radius: 9px;
+    }
+
+    .card-top-row {
+        min-width: 0;
+        gap: 0.5rem;
+    }
+
+    .card-drag-handle {
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .card-id {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.7rem;
+    }
+
+    .priority-pill {
+        flex: 0 0 auto;
+        font-size: 0.62rem;
+        padding: 3px 6px;
+    }
+
+    .card-subject {
+        font-size: 0.82rem;
+        line-height: 1.35;
+        margin: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       Route section
+       ───────────────────────────────────────────────────── */
+
+    .card-route-strip {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 0.45rem;
+        gap: 0.35rem;
+    }
+
+    .route-step {
+        min-width: 0;
+        flex: 1 1 0;
+    }
+
+    .route-step strong,
+    .route-step span {
+        min-width: 0;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .route-step strong {
+        font-size: 0.68rem;
+    }
+
+    .route-step span {
+        font-size: 0.6rem;
+    }
+
+    .route-arrow {
+        width: 18px;
+        min-width: 18px;
+        justify-content: center;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       CARD FOOTER — important fix
+       ───────────────────────────────────────────────────── */
+
+    .card-footer-meta {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+
+        gap: 0.5rem;
+        padding-top: 0.45rem;
+    }
+
+    .meta-assignee {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: none;
+        overflow: hidden;
+    }
+
+    .meta-caption {
+        display: block;
+        font-size: 0.6rem;
+        line-height: 1.2;
+    }
+
+    .meta-assignee strong {
+        display: block;
+        width: 100%;
+        min-width: 0;
+
+        font-size: 0.7rem;
+        line-height: 1.3;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .meta-time {
+        flex: 0 0 auto;
+        min-width: max-content;
+
+        font-size: 0.63rem;
+        line-height: 1.3;
+        white-space: nowrap;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       Breakdown cards
+       ───────────────────────────────────────────────────── */
+
+    .breakdown-grid {
+        width: 100%;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .breakdown-card {
+        width: 100%;
+        min-width: 0;
+        border-radius: 10px;
+    }
+
+    .breakdown-header {
+        padding: 0.8rem 0.9rem;
+    }
+
+    .breakdown-header h3 {
+        font-size: 0.82rem;
+    }
+
+    .breakdown-list {
+        padding: 0.15rem 0.9rem;
+    }
+
+    .breakdown-row {
+        padding: 0.65rem 0;
+    }
+
+    .breakdown-label {
+        min-width: 0;
+        font-size: 0.78rem;
+    }
+
+    .breakdown-val {
+        flex-shrink: 0;
+        font-size: 0.9rem;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       Modal / bottom sheet
+       ───────────────────────────────────────────────────── */
+
+    .dash-modal-backdrop {
+        padding: 0;
+        padding-bottom: env(safe-area-inset-bottom);
+        align-items: flex-end;
+    }
+
+    .dash-modal-card {
+        width: 100%;
+        max-width: 100%;
+        max-height: 92dvh;
+        border-radius: 18px 18px 0 0;
+    }
+
+    .dash-modal-header {
+        padding: 1rem;
+    }
+
+    .dash-modal-header > div {
+        min-width: 0;
+        padding-right: 0.5rem;
+    }
+
+    .dash-modal-header h2 {
+        font-size: 1rem;
+    }
+
+    .dash-modal-header p {
+        font-size: 0.72rem;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+    }
+
+    .dash-btn-close {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dash-modal-alert {
+        margin: 0.75rem 1rem 0;
+        padding: 0.65rem;
+        align-items: flex-start;
+        overflow-wrap: anywhere;
+    }
+
+    .dash-modal-body {
+        padding: 1rem;
+        gap: 1rem;
+        max-height: calc(92dvh - 175px);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .dash-form-field {
+        gap: 0.35rem;
+    }
+
+    .dash-form-field textarea {
+        min-height: 110px;
+        font-size: 16px;
+        line-height: 1.45;
+    }
+
+    .dash-modal-footer {
+        padding: 0.85rem 1rem;
+        padding-bottom: calc(0.85rem + env(safe-area-inset-bottom));
+        gap: 0.6rem;
+    }
+
+    .dash-modal-footer button {
+        min-height: 46px;
+        font-size: 0.82rem;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 640px) {
+
+    .dashboard-container {
+        gap: 0.8rem;
+    }
+
+    /* Two compact KPI cards */
+    .kpi-grid {
+        gap: 0.55rem;
+    }
+
+    .kpi-card {
+        padding: 0.7rem;
+        gap: 0.55rem;
+    }
+
+    .kpi-icon-box {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+    }
+
+    .kpi-label {
+        font-size: 0.6rem;
+    }
+
+    .kpi-number {
+        font-size: 1.2rem;
+    }
+
+    /* Filter buttons */
+    .dashboard-controls-row {
+        align-items: stretch;
+    }
+
+    .filter-pill-btn {
+        min-height: 42px;
+        padding: 0.5rem 0.7rem;
+    }
+
+    .btn-icon-action {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+    }
+
+    /* Board */
+    .kanban-scroll-wrapper {
+        margin-left: -0.1rem;
+        margin-right: -0.1rem;
+    }
+
+    .kanban-board-grid {
+        grid-template-columns: repeat(5, minmax(275px, calc(100vw - 32px)));
+        gap: 0.65rem;
+    }
+
+    .board-column {
+        max-height: 540px;
+    }
+
+    .column-card-list {
+        padding: 0.55rem;
+        gap: 0.55rem;
+    }
+
+    .board-card {
+        padding: 0.7rem;
+    }
+
+    /* Footer stays inside card */
+    .card-footer-meta {
+        gap: 0.35rem;
+    }
+
+    .meta-assignee strong {
+        font-size: 0.68rem;
+    }
+
+    .meta-time {
+        font-size: 0.6rem;
+    }
+
+    /* Modal */
+    .dash-modal-card {
+        max-height: 94dvh;
+    }
+
+    .dash-modal-body {
+        max-height: calc(94dvh - 175px);
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES — 360px / 375px
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .dashboard-container {
+        gap: 0.7rem;
+    }
+
+    .kpi-card {
+        padding: 0.6rem;
+    }
+
+    .kpi-icon-box {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+    }
+
+    .kpi-number {
+        font-size: 1.1rem;
+    }
+
+    .filter-pill-btn {
+        font-size: 0.72rem;
+        padding-left: 0.6rem;
+        padding-right: 0.6rem;
+    }
+
+    .kanban-board-grid {
+        grid-template-columns: repeat(5, minmax(270px, calc(100vw - 28px)));
+    }
+
+    .card-subject {
+        font-size: 0.78rem;
+    }
+
+    .route-step strong {
+        font-size: 0.64rem;
+    }
+
+    .route-step span {
+        font-size: 0.57rem;
+    }
+
+    .meta-assignee strong {
+        font-size: 0.65rem;
+    }
+
+    .meta-time {
+        font-size: 0.58rem;
+    }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+   ========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .filter-pill-btn,
+    .btn-icon-action,
+    .btn-apply-filter,
+    .btn-retry,
+    .dash-btn-close,
+    .dash-modal-footer button {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .filter-pill-btn:active {
+        transform: scale(0.98);
+    }
+
+    .btn-icon-action:active,
+    .btn-apply-filter:active,
+    .btn-retry:active,
+    .dash-modal-footer button:active {
+        transform: scale(0.98);
+    }
+
+    .board-card:hover {
+        transform: none;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    .board-card:active {
+        transform: scale(0.995);
+    }
+
+    .dash-btn-close {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .dashboard-container *,
+    .dashboard-container *::before,
+    .dashboard-container *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

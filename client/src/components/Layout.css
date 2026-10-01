@@ -609,3 +609,244 @@ body,
     padding-bottom: calc(1rem + env(safe-area-inset-bottom));
   }
 }
+/* ================================================================
+   MOBILE UI POLISH
+   ================================================================ */
+
+@media (max-width: 1024px) {
+
+  /* Better touch targets */
+  .menu-trigger-btn,
+  .sidebar-close-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mobile drawer */
+  .sidebar {
+    width: min(320px, calc(100vw - 48px)) !important;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .sidebar-header {
+    height: 64px;
+    padding: 0 14px;
+  }
+
+  /* Larger navigation targets */
+  .nav-item {
+    min-height: 48px;
+    height: 48px;
+    padding: 0 14px;
+    border-radius: 10px;
+    gap: 12px;
+  }
+
+  .nav-icon {
+    width: 24px;
+  }
+
+  /* More comfortable sidebar spacing */
+  .sidebar-nav {
+    padding: 12px 10px;
+  }
+
+  .nav-group {
+    margin-bottom: 14px;
+  }
+
+  .nav-group-title {
+    padding: 8px 12px 6px;
+  }
+
+  /* Footer */
+  .sidebar-footer {
+    padding: 12px 10px;
+    padding-bottom: calc(
+      12px + env(safe-area-inset-bottom)
+    );
+    gap: 10px;
+  }
+
+  .user-profile {
+    min-height: 48px;
+    padding: 6px 8px;
+    border-radius: 10px;
+  }
+
+  .logout-btn {
+    min-height: 46px;
+    height: 46px;
+    border-radius: 10px;
+  }
+
+  /* Header */
+  .top-header {
+    min-height: 64px;
+    height: 64px;
+    padding-left: max(
+      12px,
+      env(safe-area-inset-left)
+    );
+    padding-right: max(
+      12px,
+      env(safe-area-inset-right)
+    );
+  }
+
+  .top-header-left {
+    gap: 6px;
+  }
+
+  .page-heading {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .top-header-right {
+    gap: 8px;
+  }
+
+  .header-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Main content */
+  .page-content {
+    padding: 16px;
+    padding-left: max(
+      16px,
+      env(safe-area-inset-left)
+    );
+    padding-right: max(
+      16px,
+      env(safe-area-inset-right)
+    );
+    padding-bottom: calc(
+      20px + env(safe-area-inset-bottom)
+    );
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Better tap feedback */
+  .nav-item:active,
+  .menu-trigger-btn:active,
+  .sidebar-close-btn:active,
+  .logout-btn:active,
+  .user-profile:active {
+    transform: scale(0.98);
+  }
+
+  /* Remove hover behavior on touch devices */
+  .nav-item:hover {
+    background-color: transparent;
+    color: var(--color-text-muted);
+  }
+
+  .nav-item--active:hover {
+    background-color: var(--color-primary-soft);
+    color: var(--color-primary);
+  }
+}
+
+/* ================================================================
+   SMALL PHONES
+   ================================================================ */
+
+@media (max-width: 640px) {
+
+  .top-header {
+    height: 60px;
+    min-height: 60px;
+  }
+
+  .menu-trigger-btn {
+    margin-left: -6px;
+  }
+
+  .page-heading {
+    font-size: 0.95rem;
+    max-width: 180px;
+  }
+
+  .top-header-right {
+    gap: 4px;
+  }
+
+  .header-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .page-content {
+    padding: 12px;
+    padding-bottom: calc(
+      18px + env(safe-area-inset-bottom)
+    );
+  }
+
+  .sidebar {
+    width: min(310px, calc(100vw - 36px)) !important;
+  }
+
+  .sidebar-header {
+    padding-left: 12px;
+    padding-right: 10px;
+  }
+
+  .brand-logo-img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .nav-item {
+    min-height: 50px;
+    height: 50px;
+    font-size: 0.92rem;
+  }
+
+  .sidebar-backdrop {
+    background-color: rgba(15, 23, 42, 0.58);
+  }
+}
+
+/* ================================================================
+   VERY SMALL PHONES
+   ================================================================ */
+
+@media (max-width: 380px) {
+
+  .page-heading {
+    max-width: 145px;
+  }
+
+  .page-content {
+    padding: 10px;
+  }
+
+  .sidebar {
+    width: calc(100vw - 28px) !important;
+  }
+}
+
+/* ================================================================
+   REDUCE MOTION
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .main-area,
+  .nav-item,
+  .menu-trigger-btn,
+  .sidebar-close-btn,
+  .logout-btn {
+    transition: none !important;
+  }
+}

@@ -7,8 +7,9 @@ import {
   reviewIncident,
   assignIncident,
   getUsers,
-  getCurrentUser
+  getCurrentUser,
 } from "../services/api";
+import type { IncidentAttachment } from "../services/api";
 import type { IncidentDetailsResponse, User } from "../services/api";
 import "./IncidentDetails.css";
 
@@ -293,7 +294,52 @@ const IncidentDetails = () => {
       currentUser.departmentId !== null &&
       Number(currentUser.siteId) === Number(incident.to_site_id) &&
       Number(currentUser.departmentId) === Number(incident.to_department_id));
+const openAttachment = async (attachment: IncidentAttachment) => {
+  try {
+    const token = sessionStorage.getItem("incident_token");
 
+    if (!token) {
+      alert("Your session has expired. Please login again.");
+      return;
+    }
+
+    const response = await fetch(
+      `https://192.168.100.186:5000/api/incidents/attachments/${attachment.id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+
+      console.error("Attachment download failed:", errorText);
+
+      alert("Unable to open attachment.");
+      return;
+    }
+
+    const blob = await response.blob();
+
+    const blobUrl = URL.createObjectURL(blob);
+
+    window.open(blobUrl, "_blank");
+
+    /*
+     * Give the browser time to open the Blob URL
+     * before releasing it.
+     */
+    setTimeout(() => {
+      URL.revokeObjectURL(blobUrl);
+    }, 60000);
+  } catch (error) {
+    console.error("Attachment open error:", error);
+    alert("Unable to open attachment.");
+  }
+};
   return (
     <div className="incident-details-page">
       {/* ── Top Navigation & Title Bar ── */}
@@ -503,7 +549,6 @@ const IncidentDetails = () => {
             {attachments && attachments.length > 0 ? (
               <div className="attachment-grid">
                 {attachments.map((att) => {
-                  const fileUrl = `http://localhost:5000/${att.file_path}`;
                   return (
                     <div key={att.id} className="attachment-item">
                       <div className="attachment-icon">
@@ -519,8 +564,8 @@ const IncidentDetails = () => {
                       </div>
                       <div className="attachment-actions">
                         <a
-                          href={fileUrl}
-                          target="_blank"
+                          type="button"
+                          onClick={() => openAttachment(att)}
                           rel="noreferrer"
                           className="btn-icon-link"
                           title="Preview"
@@ -529,8 +574,8 @@ const IncidentDetails = () => {
                           <Icons.ExternalLink />
                         </a>
                         <a
-                          href={fileUrl}
-                          download={att.file_name}
+                          type="button"
+                          onClick={() => openAttachment(att)}
                           className="btn-icon-link"
                           title="Download"
                           aria-label="Download attachment"

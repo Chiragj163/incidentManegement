@@ -900,3 +900,467 @@
     width: 100%;
   }
 }
+/* ================================================================
+   SUB-DEPARTMENTS — MOBILE UI POLISH
+   ================================================================ */
+
+@media (max-width: 1024px) {
+  .sub-departments-container {
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .sd-header-bar {
+    gap: 0.75rem;
+  }
+
+  .btn-primary-action {
+    width: 100%;
+    min-height: 46px;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+  }
+
+  .btn-primary-action svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .sd-banner {
+    min-height: 46px;
+    padding: 0.7rem 0.8rem;
+    border-radius: 9px;
+    font-size: 0.76rem;
+    line-height: 1.4;
+    align-items: flex-start;
+  }
+
+  .sd-control-bar {
+    gap: 0.65rem;
+    padding: 0.7rem;
+    border-radius: 11px;
+  }
+
+  .sd-search-wrapper {
+    min-width: 100%;
+  }
+
+  .sd-search-wrapper input {
+    height: 46px;
+    min-height: 46px;
+    padding-left: 2.5rem;
+    padding-right: 0.8rem;
+    font-size: 16px;
+    border-radius: 9px;
+  }
+
+  .sd-search-wrapper svg {
+    left: 0.9rem;
+  }
+
+  .sd-filter-group {
+    width: 100%;
+    gap: 0.6rem;
+  }
+
+  .sd-filter-group select {
+    height: 46px;
+    min-height: 46px;
+    min-width: 0;
+    flex: 1;
+    font-size: 16px;
+    border-radius: 9px;
+    padding-left: 0.75rem;
+    padding-right: 2rem;
+  }
+
+  .sd-card-stack {
+    gap: 0.7rem;
+  }
+
+  .sd-mobile-card {
+    padding: 0.9rem;
+    gap: 0.65rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  }
+
+  .sd-mcard-top {
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .sd-mcard-code {
+    font-size: 0.68rem;
+    flex-shrink: 0;
+  }
+
+  .sd-status-badge {
+    min-height: 24px;
+    padding: 4px 7px;
+    font-size: 0.62rem;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .sd-mcard-title {
+    font-size: 0.92rem;
+    line-height: 1.4;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .sd-mcard-desc {
+    font-size: 0.74rem;
+    line-height: 1.45;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .sd-mcard-details {
+    padding: 0.65rem 0.7rem;
+    gap: 0.5rem;
+    border-radius: 8px;
+  }
+
+  .sd-detail-row {
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .detail-label {
+    flex-shrink: 0;
+    font-size: 0.62rem;
+  }
+
+  .detail-value {
+    min-width: 0;
+    max-width: 68%;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sd-mcard-actions {
+    gap: 0.55rem;
+    margin-top: 0.2rem;
+  }
+
+  .btn-mcard-action {
+    min-height: 44px;
+    height: 44px;
+    border-radius: 9px;
+    font-size: 0.78rem;
+  }
+
+  .sd-empty-state {
+    padding: 3rem 1rem;
+    border-radius: 12px;
+  }
+
+  .sd-empty-state h3 {
+    font-size: 1rem;
+  }
+
+  .sd-empty-state p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .btn-secondary-action {
+    min-height: 44px;
+    padding: 0.65rem 1rem;
+    border-radius: 9px;
+  }
+
+  .skeleton-subdept-card {
+    height: 180px;
+    border-radius: 12px;
+    margin-bottom: 0;
+  }
+
+  /* Modal */
+  .sd-modal-header {
+    min-height: 60px;
+    padding: 1rem;
+  }
+
+  .sd-modal-header h2 {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .sd-btn-close {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    justify-content: center;
+    border-radius: 9px;
+  }
+
+  .sd-modal-error-alert {
+    margin: 0.85rem 1rem 0;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    align-items: flex-start;
+  }
+
+  .sd-field {
+    gap: 0.35rem;
+  }
+
+  .sd-field label {
+    font-size: 0.72rem;
+  }
+
+  .sd-field input,
+  .sd-field select {
+    height: 46px;
+    min-height: 46px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .sd-field textarea {
+    min-height: 100px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .btn-modal-cancel,
+  .btn-modal-submit {
+    min-height: 46px;
+    height: 46px;
+    border-radius: 9px;
+  }
+
+  /* Confirmation dialog */
+  .sd-confirm-dialog {
+    padding: 1.4rem 1rem;
+    border-radius: 14px;
+  }
+
+  .sd-confirm-dialog h3 {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .sd-confirm-dialog p {
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .confirm-actions {
+    gap: 0.55rem;
+  }
+
+  .confirm-actions button {
+    min-height: 46px;
+    height: 46px;
+    border-radius: 9px;
+  }
+}
+
+@media (max-width: 640px) {
+  .sub-departments-container {
+    gap: 0.85rem;
+  }
+
+  .sd-filter-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .sd-filter-group select {
+    width: 100%;
+    flex: none;
+  }
+
+  .sd-control-bar {
+    padding: 0.6rem;
+  }
+
+  .sd-mobile-card {
+    padding: 0.8rem;
+  }
+
+  .sd-mcard-title {
+    font-size: 0.88rem;
+  }
+
+  .sd-mcard-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .btn-mcard-action {
+    width: 100%;
+    min-height: 46px;
+    height: 46px;
+  }
+
+  .sd-detail-row {
+    align-items: flex-start;
+  }
+
+  .detail-value {
+    max-width: 65%;
+    white-space: normal;
+    text-align: right;
+  }
+
+  /* Bottom drawer */
+  .sd-modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .sd-modal-card {
+    width: 100%;
+    max-height: 94dvh;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .sd-modal-form {
+    max-height: calc(94dvh - 120px);
+    padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .sd-form-grid-2 {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .sd-modal-actions {
+    gap: 0.55rem;
+  }
+
+  .sd-modal-actions button {
+    width: 100%;
+  }
+
+  .sd-confirm-dialog {
+    width: calc(100% - 24px);
+    max-width: none;
+  }
+
+  .confirm-actions {
+    flex-direction: column;
+  }
+
+  .confirm-actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .sub-departments-container {
+    gap: 0.7rem;
+  }
+
+  .sd-control-bar {
+    padding: 0.55rem;
+  }
+
+  .sd-mobile-card {
+    padding: 0.7rem;
+  }
+
+  .sd-mcard-code {
+    font-size: 0.64rem;
+  }
+
+  .sd-status-badge {
+    font-size: 0.58rem;
+    padding: 3px 6px;
+  }
+
+  .sd-mcard-title {
+    font-size: 0.84rem;
+  }
+
+  .sd-mcard-desc {
+    font-size: 0.68rem;
+  }
+
+  .sd-mcard-details {
+    padding: 0.55rem 0.6rem;
+  }
+
+  .detail-label {
+    font-size: 0.58rem;
+  }
+
+  .detail-value {
+    font-size: 0.68rem;
+  }
+
+  .btn-mcard-action {
+    font-size: 0.7rem;
+    gap: 0.3rem;
+  }
+
+  .sd-confirm-dialog {
+    width: calc(100% - 20px);
+    padding: 1.25rem 0.85rem;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn-primary-action,
+  .btn-secondary-action,
+  .sd-search-wrapper input,
+  .sd-filter-group select,
+  .btn-mcard-action,
+  .sd-btn-close,
+  .btn-modal-cancel,
+  .btn-modal-submit,
+  .btn-confirm-execute {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-primary-action:active,
+  .btn-secondary-action:active,
+  .btn-mcard-action:active,
+  .btn-modal-cancel:active,
+  .btn-modal-submit:active,
+  .btn-confirm-execute:active {
+    transform: scale(0.985);
+  }
+
+  .sd-mobile-card {
+    transition: transform 0.1s ease;
+  }
+
+  .sd-mobile-card:hover {
+    border-color: var(--sd-border);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  }
+
+  .sd-mobile-card:active {
+    transform: scale(0.995);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sub-departments-container *,
+  .sub-departments-container *::before,
+  .sub-departments-container *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

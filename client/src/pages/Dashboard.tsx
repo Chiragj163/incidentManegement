@@ -148,6 +148,9 @@ const Dashboard = () => {
   } | null>(null);
   const [activeDropColumn, setActiveDropColumn] = useState<BoardColumnKey | null>(null);
   const isDraggingRef = useRef(false);
+  const kanbanScrollRef = useRef<HTMLDivElement | null>(null);
+  const dragAutoScrollRef = useRef<number | null>(null);
+  const dragPointerXRef = useRef<number | null>(null);
 
   // ── Feedback Banner ─────────────────────────────────────────────────
   const [actionError, setActionError] = useState("");
@@ -219,6 +222,7 @@ const Dashboard = () => {
     incident: DashboardIncident,
     sourceColumn: BoardColumnKey
   ) => {
+    dragPointerXRef.current = e.clientX;
     const canStartWork =
       sourceColumn === "assigned" &&
       incident.status === "ASSIGNED" &&
@@ -249,6 +253,7 @@ const Dashboard = () => {
   };
 
   const handleDragEnd = () => {
+    stopDragAutoScroll();
     setDraggedItem(null);
     setActiveDropColumn(null);
     setTimeout(() => {
@@ -256,6 +261,64 @@ const Dashboard = () => {
     }, 100);
   };
 
+  const stopDragAutoScroll = () => {
+    if (dragAutoScrollRef.current !== null) {
+      cancelAnimationFrame(dragAutoScrollRef.current);
+      dragAutoScrollRef.current = null;
+    }
+
+    dragPointerXRef.current = null;
+  };
+
+  const runDragAutoScroll = () => {
+    const container = kanbanScrollRef.current;
+    const pointerX = dragPointerXRef.current;
+
+    if (!container || pointerX === null) {
+      dragAutoScrollRef.current = null;
+      return;
+    }
+
+    const rect = container.getBoundingClientRect();
+
+    // How close the finger must be to the edge
+    const edgeSize = 80;
+
+    // Maximum scroll speed
+    const maxSpeed = 14;
+
+    let speed = 0;
+
+    // Near right edge → scroll right
+    if (pointerX > rect.right - edgeSize) {
+      const distance = rect.right - pointerX;
+      const strength = 1 - Math.max(distance, 0) / edgeSize;
+
+      speed = maxSpeed * strength;
+    }
+
+    // Near left edge → scroll left
+    else if (pointerX < rect.left + edgeSize) {
+      const distance = pointerX - rect.left;
+      const strength = 1 - Math.max(distance, 0) / edgeSize;
+
+      speed = -maxSpeed * strength;
+    }
+
+    if (speed !== 0) {
+      container.scrollLeft += speed;
+    }
+
+    dragAutoScrollRef.current = requestAnimationFrame(runDragAutoScroll);
+  };
+
+  const updateDragPointer = (clientX: number) => {
+    dragPointerXRef.current = clientX;
+
+    if (dragAutoScrollRef.current === null) {
+      dragAutoScrollRef.current = requestAnimationFrame(runDragAutoScroll);
+    }
+  };
   const handleDragOver = (e: DragEvent<HTMLDivElement>, targetCol: BoardColumnKey) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
@@ -700,7 +763,19 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="kanban-scroll-wrapper">
+            <div
+                className="kanban-scroll-wrapper"
+                ref={kanbanScrollRef}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  updateDragPointer(e.clientX);
+                }}
+                onPointerMove={(e) => {
+                  if (isDraggingRef.current) {
+                    updateDragPointer(e.clientX);
+                  }
+                }}
+              >
               <div className="kanban-board-grid">
                 {renderBoardColumn("report", "Reported", "Awaiting triage", <Icons.Report />, stats.board.report)}
                 {renderBoardColumn("assigned", "Assigned", "Ready to start", <Icons.Assigned />, stats.board.assigned)}

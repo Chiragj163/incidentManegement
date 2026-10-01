@@ -871,3 +871,625 @@
     width: 100%;
   }
 }
+/* ============================================================
+   MOBILE UI POLISH — AUDIT LOGS
+   ============================================================ */
+
+@media (max-width: 1024px) {
+
+  /* ---------- Page ---------- */
+
+  .audit-page-container {
+    width: 100%;
+    max-width: 100%;
+    gap: 1rem;
+    padding: 0 0 1.5rem;
+    overflow-x: hidden;
+  }
+
+  /* ---------- Header ---------- */
+
+  .al-header-bar {
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .al-header-actions {
+    width: 100%;
+  }
+
+  .btn-export-audit {
+    min-height: 44px;
+    width: 100%;
+    justify-content: center;
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+
+  /* ---------- Alert ---------- */
+
+  .al-alert-banner {
+    align-items: flex-start;
+    padding: 0.8rem 0.9rem;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------- Cards ---------- */
+
+  .al-card {
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  .al-card-header {
+    padding: 0.9rem 1rem;
+    gap: 0.65rem;
+  }
+
+  .al-card-header h2 {
+    font-size: 0.9rem;
+  }
+
+  .header-with-icon {
+    min-width: 0;
+  }
+
+  .header-with-icon h2 {
+    overflow-wrap: anywhere;
+  }
+
+  .active-tag {
+    flex-shrink: 0;
+  }
+
+  /* ---------- Filters ---------- */
+
+  .al-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+    padding: 1rem;
+  }
+
+  .al-field {
+    min-width: 0;
+  }
+
+  .al-field label {
+    font-size: 0.7rem;
+  }
+
+  .al-field select,
+  .al-field input[type="date"] {
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+    padding: 0 0.75rem;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .al-filter-actions {
+    padding: 0.8rem 1rem;
+    gap: 0.6rem;
+  }
+
+  .btn-reset-filters,
+  .btn-apply-filters {
+    min-height: 44px;
+    height: 44px;
+    border-radius: 8px;
+    padding: 0 1rem;
+  }
+
+  /* ---------- Mobile Audit Cards ---------- */
+
+  .al-card-stack {
+    padding: 0.8rem;
+    gap: 0.75rem;
+  }
+
+  .al-mobile-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.9rem;
+    border-radius: 10px;
+    gap: 0.7rem;
+    overflow: hidden;
+  }
+
+  .mcard-top-row {
+    align-items: flex-start;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  .al-badge {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.3;
+  }
+
+  .mcard-timestamp {
+    margin-left: auto;
+    text-align: right;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .mcard-body {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem;
+    gap: 0.55rem;
+    border-radius: 8px;
+  }
+
+  .mcard-detail-row {
+    display: grid;
+    grid-template-columns: minmax(72px, 30%) minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: start;
+    line-height: 1.4;
+  }
+
+  .mcard-label {
+    padding-top: 1px;
+  }
+
+  .mcard-detail-row > span:last-child,
+  .mcard-detail-row > strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    text-align: right;
+  }
+
+  .incident-link-badge,
+  .ip-badge {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .mcard-footer {
+    width: 100%;
+  }
+
+  .btn-inspect-mobile {
+    min-height: 46px;
+    height: 46px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+  }
+
+  /* ---------- Empty State ---------- */
+
+  .al-empty-state {
+    padding: 3rem 1rem;
+  }
+
+  .al-empty-state h3 {
+    font-size: 1rem;
+  }
+
+  .al-empty-state p {
+    max-width: 100%;
+    line-height: 1.5;
+  }
+
+  /* ---------- Loading ---------- */
+
+  .al-skeleton-card {
+    height: 175px;
+    border-radius: 10px;
+  }
+
+  /* ---------- Modal / Bottom Sheet ---------- */
+
+  .al-modal-backdrop {
+    padding: 0.75rem;
+    align-items: center;
+  }
+
+  .al-modal-card {
+    width: 100%;
+    max-width: 720px;
+    max-height: 92vh;
+    border-radius: 14px;
+  }
+
+  .al-modal-header {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .al-modal-header h2 {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .modal-header-meta {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .btn-close-modal {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    justify-content: center;
+  }
+
+  .al-modal-meta-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    padding: 0.9rem;
+  }
+
+  .meta-box {
+    min-width: 0;
+    padding: 0.55rem;
+    background: #ffffff;
+    border: 1px solid var(--al-border-subtle);
+    border-radius: 7px;
+  }
+
+  .meta-box strong {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.4;
+  }
+
+  .al-diff-container {
+    padding: 1rem;
+    max-height: calc(92vh - 260px);
+  }
+
+  .diff-heading-row {
+    gap: 0.5rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .diff-heading-row h3 {
+    font-size: 0.85rem;
+  }
+
+  .diff-action-tag {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .al-diff-table-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .al-diff-table {
+    min-width: 520px;
+  }
+
+  .al-diff-table th,
+  .al-diff-table td {
+    padding: 0.6rem 0.7rem;
+  }
+
+  .al-modal-footer {
+    padding: 0.8rem 1rem;
+  }
+
+  .btn-modal-dismiss {
+    width: 100%;
+    min-height: 44px;
+    height: 44px;
+  }
+}
+
+
+/* ============================================================
+   SMALL PHONES
+   ============================================================ */
+
+@media (max-width: 640px) {
+
+  .audit-page-container {
+    gap: 0.8rem;
+  }
+
+  /* Header */
+
+  .al-header-bar {
+    gap: 0.65rem;
+  }
+
+  .btn-export-audit {
+    min-height: 46px;
+  }
+
+  /* Cards */
+
+  .al-card {
+    border-radius: 9px;
+  }
+
+  .al-card-header {
+    padding: 0.85rem;
+  }
+
+  /* Filters */
+
+  .al-filter-grid {
+    grid-template-columns: 1fr;
+    padding: 0.9rem;
+    gap: 0.75rem;
+  }
+
+  .al-field select,
+  .al-field input[type="date"] {
+    height: 46px;
+    min-height: 46px;
+  }
+
+  .al-filter-actions {
+    padding: 0.8rem 0.9rem;
+    flex-direction: column;
+  }
+
+  .al-filter-actions button {
+    width: 100%;
+    min-height: 46px;
+    height: 46px;
+    justify-content: center;
+  }
+
+  /* Audit list */
+
+  .al-card-stack {
+    padding: 0.7rem;
+  }
+
+  .al-mobile-card {
+    padding: 0.8rem;
+  }
+
+  .mcard-top-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.45rem;
+  }
+
+  .mcard-timestamp {
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .mcard-detail-row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  .mcard-detail-row > span:last-child,
+  .mcard-detail-row > strong {
+    text-align: left;
+  }
+
+  .mcard-label {
+    font-size: 0.68rem;
+  }
+
+  .btn-inspect-mobile {
+    min-height: 48px;
+    height: 48px;
+  }
+
+  /* Empty */
+
+  .al-empty-state {
+    padding: 2.5rem 0.9rem;
+  }
+
+  /* Modal becomes bottom sheet */
+
+  .al-modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .al-modal-card {
+    width: 100%;
+    max-width: none;
+    max-height: 92vh;
+    border-radius: 16px 16px 0 0;
+    border-bottom: none;
+    animation: auditMobileSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .al-modal-header {
+    padding: 0.9rem;
+  }
+
+  .al-modal-header h2 {
+    font-size: 0.95rem;
+  }
+
+  .al-modal-meta-grid {
+    grid-template-columns: 1fr;
+    padding: 0.8rem;
+    gap: 0.5rem;
+  }
+
+  .meta-box {
+    padding: 0.6rem;
+  }
+
+  .al-diff-container {
+    padding: 0.8rem;
+    max-height: calc(92vh - 330px);
+  }
+
+  .al-diff-table {
+    min-width: 500px;
+  }
+
+  .al-modal-footer {
+    padding: 0.75rem 0.8rem;
+  }
+
+  .btn-modal-dismiss {
+    min-height: 48px;
+    height: 48px;
+  }
+}
+
+
+/* ============================================================
+   EXTRA SMALL PHONES — 360px / 380px
+   ============================================================ */
+
+@media (max-width: 380px) {
+
+  .audit-page-container {
+    gap: 0.7rem;
+  }
+
+  .al-card-header {
+    padding: 0.75rem;
+  }
+
+  .al-card-header h2 {
+    font-size: 0.84rem;
+  }
+
+  .al-filter-grid {
+    padding: 0.75rem;
+  }
+
+  .al-filter-actions {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .al-card-stack {
+    padding: 0.6rem;
+  }
+
+  .al-mobile-card {
+    padding: 0.7rem;
+  }
+
+  .mcard-body {
+    padding: 0.6rem;
+  }
+
+  .mcard-detail-row {
+    font-size: 0.78rem;
+  }
+
+  .mcard-label {
+    font-size: 0.65rem;
+  }
+
+  .al-badge {
+    font-size: 0.68rem;
+  }
+
+  .mcard-timestamp {
+    font-size: 0.68rem;
+  }
+
+  .btn-inspect-mobile {
+    font-size: 0.78rem;
+  }
+
+  .al-modal-header {
+    padding: 0.8rem;
+  }
+
+  .al-modal-meta-grid {
+    padding: 0.7rem;
+  }
+
+  .al-diff-container {
+    padding: 0.7rem;
+  }
+}
+
+
+/* ============================================================
+   TOUCH DEVICES
+   ============================================================ */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .btn-export-audit,
+  .btn-reset-filters,
+  .btn-apply-filters,
+  .btn-inspect-mobile,
+  .btn-modal-dismiss,
+  .btn-close-modal {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .btn-export-audit:active,
+  .btn-reset-filters:active,
+  .btn-apply-filters:active,
+  .btn-inspect-mobile:active,
+  .btn-modal-dismiss:active {
+    transform: scale(0.98);
+  }
+
+  .al-mobile-card {
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .al-mobile-card:active {
+    transform: scale(0.995);
+  }
+
+  .al-diff-table-wrapper {
+    overscroll-behavior-x: contain;
+  }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .al-spinner,
+  .al-skeleton-row,
+  .al-skeleton-card,
+  .al-modal-card {
+    animation: none !important;
+  }
+
+  .al-mobile-card,
+  .btn-export-audit,
+  .btn-reset-filters,
+  .btn-apply-filters,
+  .btn-inspect-mobile,
+  .btn-modal-dismiss {
+    transition: none !important;
+  }
+}
+
+
+@keyframes auditMobileSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
