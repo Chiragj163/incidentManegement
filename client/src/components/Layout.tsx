@@ -148,6 +148,80 @@ const NAVIGATION_SECTIONS = [
 const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+    useEffect(() => {
+    if (location.pathname !== "/dashboard") {
+        return;
+    }
+
+    const state = window.history.state;
+
+    /*
+     * Already initialized for this app session.
+     */
+    if (state?.incidentHistory === "dashboard") {
+        return;
+    }
+
+    /*
+     * Current Dashboard entry becomes the EXIT GUARD.
+     */
+    window.history.replaceState(
+        {
+            ...state,
+            incidentHistory: "exit-guard",
+        },
+        "",
+        "/dashboard"
+    );
+
+    /*
+     * Create the real Dashboard entry after the guard.
+     */
+    window.history.pushState(
+        {
+            ...window.history.state,
+            incidentHistory: "dashboard",
+        },
+        "",
+        "/dashboard"
+    );
+}, [location.pathname]);
+
+
+useEffect(() => {
+    const handlePopState = () => {
+        const state = window.history.state;
+
+        if (state?.incidentHistory === "exit-guard") {
+            const shouldExit = window.confirm(
+                "Are you sure you want to exit?"
+            );
+
+            if (shouldExit) {
+                logout();
+                window.location.replace("/login");
+                return;
+            }
+
+            window.history.pushState(
+                {
+                    ...window.history.state,
+                    incidentHistory: "dashboard",
+                },
+                "",
+                "/dashboard"
+            );
+        }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+        window.removeEventListener("popstate", handlePopState);
+    };
+}, []);
+ 
   const user = getCurrentUser();
 
   const [isCollapsed, setIsCollapsed] = useState(() => {

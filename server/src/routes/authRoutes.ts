@@ -10,15 +10,12 @@ import {
 import {
     authenticateToken,
 } from "../middleware/authMiddleware";
-
-import {
-    loginRateLimiter,
-} from "../middleware/loginRateLimiter";
+import { loginRateLimiter } from "../middleware/loginRateLimiter";
 
 const router = Router();
 
 // Login
-router.post("/login", loginRateLimiter ,login);
+router.post("/login", loginRateLimiter,login);
 
 // Authenticated user settings
 router.get(

@@ -293,17 +293,28 @@ export const login = async (
         }
     );
 
-    const data: LoginResponse = await response.json();
+    const data = await response.json();
 
     console.log("LOGIN API RESPONSE:", data);
 
     if (!response.ok || !data.success) {
-        throw new Error(
+        const error = new Error(
             data.message || "Login failed"
-        );
+        ) as Error & {
+            retryAfterSeconds?: number;
+        };
+
+        if (
+            typeof data.retryAfterSeconds === "number"
+        ) {
+            error.retryAfterSeconds =
+                data.retryAfterSeconds;
+        }
+
+        throw error;
     }
 
-    return data;
+    return data as LoginResponse;
 };
 
 export const getToken = (): string | null => {
@@ -1165,8 +1176,10 @@ export async function startIncidentWork(incidentId: number) {
     {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({}), 
     }
   );
 

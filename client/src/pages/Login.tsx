@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect ,useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/api";
@@ -58,7 +58,37 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [retryAfterSeconds, setRetryAfterSeconds] = useState(0);
 
+  useEffect(() => {
+    if (retryAfterSeconds <= 0) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      setRetryAfterSeconds((previous) => {
+        if (previous <= 1) {
+          window.clearInterval(timer);
+          return 0;
+        }
+
+        return previous - 1;
+      });
+    }, 1000);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [retryAfterSeconds]);
+
+  const formatRetryTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+
+    return `${minutes}:${remainingSeconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
@@ -81,14 +111,28 @@ const Login = () => {
       sessionStorage.setItem("incident_token", data.data.token);
       sessionStorage.setItem("incident_user", JSON.stringify(data.data.user));
 
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Invalid credentials or server connection failed");
-      }
-    } finally {
+        if (err instanceof Error) {
+          const rateLimitError = err as Error & {
+            retryAfterSeconds?: number;
+          };
+
+          if (
+            typeof rateLimitError.retryAfterSeconds === "number" &&
+            rateLimitError.retryAfterSeconds > 0
+          ) {
+            setRetryAfterSeconds(
+              rateLimitError.retryAfterSeconds
+            );
+            setError("Too many incorrect password attempts.");
+          } else {
+            setError(err.message);
+          }
+        } else {
+          setError("Invalid credentials or server connection failed");
+        }
+      } finally {
       setLoading(false);
     }
   };
@@ -119,7 +163,19 @@ const Login = () => {
           {error && (
             <div className="login-error-banner" role="alert">
               <Icons.AlertCircle />
-              <span>{error}</span>
+
+              <span>
+                {error}
+
+                {retryAfterSeconds > 0 && (
+                  <>
+                    <br />
+                    <strong>
+                      Try again in {formatRetryTime(retryAfterSeconds)}
+                    </strong>
+                  </>
+                )}
+              </span>
             </div>
           )}
 
@@ -182,7 +238,7 @@ const Login = () => {
             <button
               type="submit"
               className="login-submit-btn"
-              disabled={loading}
+              disabled={loading || retryAfterSeconds > 0}
             >
               {loading ? (
                 <>
