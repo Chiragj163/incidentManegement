@@ -180,11 +180,13 @@ CREATE TABLE incidents (
     site_id BIGINT NOT NULL,
 
     -- SOURCE
+    from_site_id BIGINT NOT NULL,
     from_department_id BIGINT NOT NULL,
     from_sub_department_id BIGINT,
     reported_by BIGINT NOT NULL,
 
     -- DESTINATION
+    to_site_id BIGINT NOT NULL,
     to_department_id BIGINT NOT NULL,
     to_sub_department_id BIGINT,
     assigned_to BIGINT,
@@ -221,8 +223,17 @@ CREATE TABLE incidents (
 
     closed_at TIMESTAMPTZ,
 
+    -- AUTOMATIC ASSIGNMENT
+    assignment_deadline_at TIMESTAMP,
+    auto_assigned_at TIMESTAMP,
+
     CONSTRAINT fk_incidents_site
         FOREIGN KEY (site_id)
+        REFERENCES sites(id)
+        ON DELETE RESTRICT,
+
+    CONSTRAINT fk_incidents_from_site
+        FOREIGN KEY (from_site_id)
         REFERENCES sites(id)
         ON DELETE RESTRICT,
 
@@ -241,6 +252,11 @@ CREATE TABLE incidents (
         REFERENCES users(id)
         ON DELETE RESTRICT,
 
+    CONSTRAINT fk_incidents_to_site
+        FOREIGN KEY (to_site_id)
+        REFERENCES sites(id)
+        ON DELETE RESTRICT,
+
     CONSTRAINT fk_incidents_to_department
         FOREIGN KEY (to_department_id)
         REFERENCES departments(id)
@@ -256,6 +272,15 @@ CREATE TABLE incidents (
         REFERENCES users(id)
         ON DELETE RESTRICT
 );
+CREATE INDEX idx_incidents_from_site
+    ON incidents (from_site_id);
+
+CREATE INDEX idx_incidents_to_site
+    ON incidents (to_site_id);
+
+CREATE INDEX idx_incidents_assignment_deadline
+    ON incidents (assignment_deadline_at)
+    WHERE assigned_to IS NULL;
 -- ============================================================
 -- 7. INCIDENT ATTACHMENTS
 -- ============================================================

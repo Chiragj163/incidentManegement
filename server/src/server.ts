@@ -2,9 +2,6 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
-import path from "path";
-import https from "https";
-import fs from "fs";
 
 import { testDatabaseConnection } from "./config/database";
 import authRoutes from "./routes/authRoutes";
@@ -159,21 +156,6 @@ app.use(
 );
 
 // ------------------------------------------------------------
-// HTTPS Configuration
-// ------------------------------------------------------------
-
-const certDir = path.resolve(__dirname, "../../certs");
-
-const sslOptions = {
-    key: fs.readFileSync(
-        path.join(certDir, "192.168.100.186+2-key.pem")
-    ),
-    cert: fs.readFileSync(
-        path.join(certDir, "192.168.100.186+2.pem")
-    ),
-};
-
-// ------------------------------------------------------------
 // Start Server
 // ------------------------------------------------------------
 
@@ -181,12 +163,12 @@ const startServer = async () => {
     try {
         await testDatabaseConnection();
 
-        https.createServer(sslOptions, app).listen(
+        app.listen(
             PORT,
-            "0.0.0.0",
+            "127.0.0.1",
             () => {
                 console.log(
-                    `Incident Management API running on https://localhost:${PORT}`
+                    `Incident Management API running on http://127.0.0.1:${PORT}`
                 );
 
                 console.log(
