@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://192.168.100.186:5000/api";
+const API_BASE_URL = "/api";
 
 export interface LoginUser {
     id: string;
