@@ -304,7 +304,7 @@ const openAttachment = async (attachment: IncidentAttachment) => {
     }
 
     const response = await fetch(
-      `https://192.168.100.186:5000/api/incidents/attachments/${attachment.id}`,
+      `/api/incidents/attachments/${attachment.id}`,
       {
         method: "GET",
         headers: {
