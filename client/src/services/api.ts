@@ -1,4 +1,4 @@
-const API_BASE_URL = "/api";
+const API_BASE_URL = "/incidentManagement/api";
 
 export interface LoginUser {
     id: string;

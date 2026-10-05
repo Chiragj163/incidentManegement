@@ -172,7 +172,7 @@ const Layout = () => {
             incidentHistory: "exit-guard",
         },
         "",
-        "/dashboard"
+            "/incidentManagement/dashboard"
     );
 
     /*
@@ -184,7 +184,8 @@ const Layout = () => {
             incidentHistory: "dashboard",
         },
         "",
-        "/dashboard"
+       "/incidentManagement/dashboard"
+
     );
 }, [location.pathname]);
 
@@ -200,7 +201,7 @@ useEffect(() => {
 
             if (shouldExit) {
                 logout();
-                window.location.replace("/login");
+                navigate("/login", { replace: true });
                 return;
             }
 
@@ -335,7 +336,7 @@ useEffect(() => {
             <div className="sidebar-brand-icon">
               {/* Default Logo Image */}
               <img
-                src="/images.svg"
+                src="/incidentManagement/images.svg"
                 alt="Logo"
                 className="brand-logo-img"
               />

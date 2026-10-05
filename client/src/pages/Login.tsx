@@ -148,7 +148,7 @@ const Login = () => {
           <div className="login-header">
             <div className="d-inline-flex align-items-center justify-content-center p-2 rounded-3 bg-white shadow-sm mb-3 border"style={{ width: "56px", height: "56px" }}>
               <img 
-                src="/images.svg" 
+                src="/incidentManagement/images.svg" 
                 alt="Logo" 
                 className="object-fit-contain" 
                 style={{ width: "46px", height: "46px" }} 
