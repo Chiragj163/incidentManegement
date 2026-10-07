@@ -185,6 +185,45 @@ export const createIncident = async (
                 }
             }
         }
+        // --------------------------------------------------
+        // PREVENT SAME SUB-DEPARTMENT INCIDENT
+        // --------------------------------------------------
+
+        /*
+        * A normal employee cannot create an incident
+        * for their own sub-department.
+        *
+        * Example:
+        * Employee:
+        *   Department     = IT
+        *   Sub-Department = Network
+        *
+        * Not allowed:
+        *   IT -> Network
+        *
+        * Allowed:
+        *   IT -> Software
+        *   HR -> Any
+        *   IT -> General
+        */
+        if (req.user.role === "USER") {
+            if (
+                req.user.departmentId !== null &&
+                req.user.subDepartmentId !== null &&
+                Number(req.user.departmentId) === Number(toDepartmentId) &&
+                toSubDepartmentId !== undefined &&
+                toSubDepartmentId !== null &&
+                Number(req.user.subDepartmentId) ===
+                    Number(toSubDepartmentId)
+            ) {
+                res.status(403).json({
+                    success: false,
+                    message:
+                        "You cannot create an incident for your own sub-department. Please select another sub-department.",
+                });
+                return;
+            }
+        }
 
         await client.query("BEGIN");
 

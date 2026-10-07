@@ -559,11 +559,25 @@ useEffect(() => {
                     disabled={!toDepartmentId}
                   >
                     <option value="">None / General</option>
-                    {toSubDepartments.map((sd) => (
-                      <option key={sd.id} value={sd.id}>
-                        {sd.sub_department_name}
-                      </option>
-                    ))}
+                    {toSubDepartments.map((sd) => {
+                        const isOwnSubDepartment =
+                            currentUser?.role === "USER" &&
+                            currentUser?.departmentId !== null &&
+                            currentUser?.subDepartmentId !== null &&
+                            Number(currentUser.departmentId) === Number(toDepartmentId) &&
+                            Number(currentUser.subDepartmentId) === Number(sd.id);
+
+                        return (
+                            <option
+                                key={sd.id}
+                                value={sd.id}
+                                disabled={isOwnSubDepartment}
+                            >
+                                {sd.sub_department_name}
+                                {isOwnSubDepartment ? " (Your Sub-Department)" : ""}
+                            </option>
+                        );
+                    })}
                   </select>
                 </div>
               </div>
