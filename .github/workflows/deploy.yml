@@ -10,7 +10,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Start production deployment
+      - name: Deploy Incident Management
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
@@ -19,102 +19,23 @@ jobs:
           Write-Host " Starting Incident Management Deployment"
           Write-Host "========================================="
 
-          $taskName = "Incident Management - Deploy"
+          $script = "D:\IncidentManagement\deploy\deploy.ps1"
 
-          # -----------------------------------------
-          # Check Scheduled Task
-          # -----------------------------------------
-
-          Write-Host ""
-          Write-Host "Checking deployment task..."
-
-          $task = Get-ScheduledTask `
-              -TaskName $taskName `
-              -ErrorAction Stop
-
-          Write-Host "Task state: $($task.State)"
-
-          if ($task.State -eq "Running") {
-              throw "Deployment task is already running."
+          if (-not (Test-Path $script)) {
+              throw "Deployment script not found: $script"
           }
 
-          # -----------------------------------------
-          # Start deployment
-          # -----------------------------------------
-
           Write-Host ""
-          Write-Host "Starting Scheduled Task..."
+          Write-Host "Running deployment script..."
 
-          Start-ScheduledTask -TaskName $taskName
+          & powershell.exe `
+              -NoProfile `
+              -ExecutionPolicy Bypass `
+              -File $script
 
-          Write-Host "Deployment task started."
-
-          # -----------------------------------------
-          # Wait for deployment
-          # -----------------------------------------
-
-          $timeout = 15 * 60
-          $elapsed = 0
-
-          do {
-              Start-Sleep -Seconds 5
-              $elapsed += 5
-
-              $currentTask = Get-ScheduledTask `
-                  -TaskName $taskName
-
-              $taskInfo = Get-ScheduledTaskInfo `
-                  -TaskName $taskName
-
-              Write-Host "Elapsed: $elapsed seconds"
-              Write-Host "Task state: $($currentTask.State)"
-              Write-Host "Last task result: $($taskInfo.LastTaskResult)"
-
-              if ($elapsed -ge $timeout) {
-                  throw "Deployment timed out after 15 minutes."
-              }
-
-          } while ($currentTask.State -eq "Running")
-
-          # -----------------------------------------
-          # Check deployment result
-          # -----------------------------------------
-
-          $taskInfo = Get-ScheduledTaskInfo `
-              -TaskName $taskName
-
-          Write-Host ""
-          Write-Host "Deployment task finished."
-          Write-Host "LastTaskResult: $($taskInfo.LastTaskResult)"
-
-          if ($taskInfo.LastTaskResult -ne 0) {
-              throw "Deployment failed with task result $($taskInfo.LastTaskResult)."
+          if ($LASTEXITCODE -ne 0) {
+              throw "Deployment failed with exit code $LASTEXITCODE."
           }
-
-          # -----------------------------------------
-          # Verify production API
-          # -----------------------------------------
-
-          Write-Host ""
-          Write-Host "Checking production API health..."
-
-          $healthUrl = "https://138.252.200.157/incidentManagement/api/health"
-
-          $response = Invoke-RestMethod `
-              -Uri $healthUrl `
-              -Method Get `
-              -TimeoutSec 30
-
-          Write-Host "API success: $($response.success)"
-          Write-Host "API message: $($response.message)"
-
-          if ($response.success -ne $true) {
-              throw "Production API health check failed."
-          }
-
-          # -----------------------------------------
-          # SUCCESS
-          # -----------------------------------------
 
           Write-Host ""
           Write-Host "========================================="
