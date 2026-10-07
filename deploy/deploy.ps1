@@ -4,9 +4,20 @@ $Project = "D:\IncidentManagement"
 $Server  = "$Project\server"
 $Client  = "$Project\client"
 
+# =========================================
+# PM2 configuration
+# =========================================
+
+$env:PM2_HOME = "C:\Users\Administrator\.pm2"
+$pm2 = "C:\Users\Administrator\AppData\Roaming\npm\pm2.cmd"
+
 Write-Host "=========================================" -ForegroundColor Cyan
 Write-Host " Incident Management Deployment" -ForegroundColor Cyan
 Write-Host "=========================================" -ForegroundColor Cyan
+
+Write-Host ""
+Write-Host "PM2 executable: $pm2" -ForegroundColor DarkCyan
+Write-Host "PM2 home:       $env:PM2_HOME" -ForegroundColor DarkCyan
 
 function Run-NativeCommand {
     param(
@@ -51,7 +62,7 @@ try {
     # Stop API BEFORE npm ci so bcrypt.node is not locked
     Write-Host "Stopping Incident API..." -ForegroundColor Yellow
 
-    & pm2 stop incident-api
+    & $pm2 stop incident-api
 
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to stop incident-api."
@@ -101,7 +112,7 @@ try {
     Write-Host ""
     Write-Host "[6/8] Restarting Incident API..." -ForegroundColor Yellow
 
-    & pm2 restart incident-api
+    & $pm2 restart incident-api
 
     if ($LASTEXITCODE -ne 0) {
         throw "PM2 failed to restart incident-api."
@@ -117,7 +128,7 @@ try {
     Write-Host ""
     Write-Host "[7/8] Checking PM2 status..." -ForegroundColor Yellow
 
-    & pm2 status
+    & $pm2 status
 
     if ($LASTEXITCODE -ne 0) {
         throw "PM2 status check failed."
@@ -170,14 +181,14 @@ catch {
     Write-Host ""
     Write-Host "Attempting to restore Incident API..." -ForegroundColor Yellow
 
-    & pm2 restart incident-api
+    & $pm2 restart incident-api
 
     Start-Sleep -Seconds 5
 
     Write-Host ""
     Write-Host "Current PM2 status:" -ForegroundColor Yellow
 
-    & pm2 status
+    & $pm2 status
 
     Write-Host ""
     Write-Host "Deployment stopped because a command failed." -ForegroundColor Red
