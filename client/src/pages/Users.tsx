@@ -133,7 +133,7 @@ export default function Users() {
   const [sites, setSites] = useState<Site[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [subDepartments, setSubDepartments] = useState<SubDepartment[]>([]);
-  const [currentUser, setCurrentUser] = useState<{ id: number; role: string } | null>(null);
+  const [currentUser, setCurrentUser] = useState<{ id: number; role: string; siteId: number | null; departmentId: number | null; subDepartmentId: number | null; } | null>(null);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -192,7 +192,19 @@ export default function Users() {
   useEffect(() => {
     const user = getCurrentUser();
     if (user) {
-      setCurrentUser({ id: Number(user.id), role: user.role });
+      setCurrentUser({
+        id: Number(user.id),
+        role: user.role,
+        siteId: user.siteId != null ? Number(user.siteId) : null,
+        departmentId:
+          user.departmentId != null
+            ? Number(user.departmentId)
+            : null,
+        subDepartmentId:
+          user.subDepartmentId != null
+            ? Number(user.subDepartmentId)
+            : null,
+      });
     }
     loadData();
   }, [loadData]);
@@ -273,7 +285,19 @@ export default function Users() {
     setEditingUser(null);
     setForm({
       ...emptyForm,
-      roleCode: "USER"
+      roleCode: "USER",
+
+      siteId:
+        isDepartmentAdmin && currentUser?.siteId != null
+          ? String(currentUser.siteId)
+          : "",
+
+      departmentId:
+        isDepartmentAdmin && currentUser?.departmentId != null
+          ? String(currentUser.departmentId)
+          : "",
+
+      subDepartmentId: "",
     });
     setModalError("");
     setShowModal(true);
@@ -1054,7 +1078,7 @@ export default function Users() {
                       name="subDepartmentId"
                       value={form.subDepartmentId}
                       onChange={handleChange}
-                      disabled={saving || !form.departmentId || isDepartmentAdmin}
+                      disabled={saving || !form.departmentId}
                       required={form.roleCode === "USER"}
                     >
                       <option value="">
