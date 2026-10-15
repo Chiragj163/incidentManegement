@@ -604,7 +604,7 @@ useEffect(() => {
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                placeholder=""
+                placeholder="Subject"
                 maxLength={250}
                 required
               />

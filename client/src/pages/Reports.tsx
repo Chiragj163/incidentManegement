@@ -180,7 +180,9 @@ const Reports = () => {
       "Status",
       "Reported By",
       "Assigned To",
-      "Created Timestamp"
+      "Created Timestamp",
+      "Finished On",
+      "Duration"
     ];
 
     const rows = report.incidents.map((inc) => [
@@ -193,7 +195,9 @@ const Reports = () => {
       inc.status,
       `"${(inc.reported_by_name || "").replace(/"/g, '""')}"`,
       `"${(inc.assigned_to_name || "Unassigned").replace(/"/g, '""')}"`,
-      `"${formatDate(inc.created_at)}"`
+      `"${formatDate(inc.created_at)}"`,
+      `"${formatDate(inc.closed_at)}"`,
+      `"${formatDuration(inc.created_at, inc.closed_at)}"`
     ]);
 
     const csvContent =
@@ -223,6 +227,35 @@ const Reports = () => {
       minute: "2-digit"
     });
   };
+
+
+  const formatDuration = (
+    start?: string | null,
+    end?: string | null
+  ): string => {
+    if (!start) return "—";
+
+    const startTime = new Date(start).getTime();
+    const endTime = end ? new Date(end).getTime() : Date.now();
+
+    if (!Number.isFinite(startTime) || !Number.isFinite(endTime)) {
+      return "—";
+    }
+
+    const totalMinutes = Math.floor(
+      Math.max(0, endTime - startTime) / 60000
+    );
+
+    const days = Math.floor(totalMinutes / 1440);
+    const hours = Math.floor((totalMinutes % 1440) / 60);
+    const minutes = totalMinutes % 60;
+
+    if (days > 0) return `${days}d ${hours}h ${minutes}m`;
+    if (hours > 0) return `${hours}h ${minutes}m`;
+
+    return `${minutes}m`;
+  };
+
 
   const formatStatus = (val: string) =>
     val ? val.split("_").map((w) => w.charAt(0) + w.slice(1).toLowerCase()).join(" ") : "";
@@ -569,6 +602,8 @@ const Reports = () => {
                           <th>Reporter</th>
                           <th>Assignee</th>
                           <th>Created</th>
+                          <th>Finished On</th>
+                          <th>Duration</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -613,6 +648,8 @@ const Reports = () => {
                               <span className="cell-meta truncate-text">{inc.assigned_to_name || "Unassigned"}</span>
                             </td>
                             <td className="cell-date">{formatDate(inc.created_at)}</td>
+                            <td className="cell-date">{formatDate(inc.closed_at)}</td>
+                            <td className="cell-duration">{formatDuration(inc.created_at, inc.closed_at)}</td>
                           </tr>
                         ))}
                       </tbody>

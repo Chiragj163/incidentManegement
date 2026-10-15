@@ -465,7 +465,7 @@
   }
 
   .form-action-bar {
-    position: sticky;
+    position: static;
     bottom: 0;
     background: var(--ri-surface);
     padding: 1rem;
