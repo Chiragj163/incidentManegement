@@ -57,13 +57,22 @@ const Incidents = () => {
   }, [loadIncidents]);
 
   // ── Formatters ──────────────────────────────────────────────────────
+  
   const formatDate = (value?: string | null) => {
-      if (!value) {
-          return "—";
-      }
+    if (!value) {
+      return "—";
+    }
 
-      return new Date(value).toLocaleString("en-IN");
+    return new Date(value).toLocaleString("en-IN", {
+      day: "numeric",
+      month: "numeric",
+      year: "2-digit",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    }).replace(/\bam\b|\bpm\b/i, (match) => match.toLowerCase());
   };
+
 
   const formatDuration = (
       start?: string | null,
