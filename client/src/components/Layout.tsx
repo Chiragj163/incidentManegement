@@ -211,7 +211,7 @@ useEffect(() => {
                     incidentHistory: "dashboard",
                 },
                 "",
-                "/dashboard"
+                "/incidentManagement/dashboard"
             );
         }
     };
