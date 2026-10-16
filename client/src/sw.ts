@@ -3,7 +3,7 @@
 import { precacheAndRoute } from "workbox-precaching";
 
 const sw = self as unknown as ServiceWorkerGlobalScope;
-const APP_VERSION = "2026-09-29-1600";
+const APP_VERSION = "2026-10-16-1600";
 
 console.log("SW VERSION:", APP_VERSION);
 
@@ -31,8 +31,8 @@ sw.addEventListener("push", (event: PushEvent) => {
         body:
             data.body ||
             "You have a new notification.",
-        icon: "/pwa-192x192.png",
-        badge: "/pwa-192x192.png",
+        icon: "/incidentManagement/pwa-192x192.png",
+        badge: "/incidentManagement/pwa-192x192.png",
         data: data.data || {},
     };
 
@@ -54,7 +54,7 @@ sw.addEventListener(
 
         const url =
             notificationData.url ||
-            "/notifications";
+            "/incidentManagement/notifications";
 
         event.waitUntil(
             sw.clients
