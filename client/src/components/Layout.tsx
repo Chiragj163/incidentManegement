@@ -166,27 +166,27 @@ const Layout = () => {
     /*
      * Current Dashboard entry becomes the EXIT GUARD.
      */
-    window.history.replaceState(
-        {
-            ...state,
-            incidentHistory: "exit-guard",
-        },
-        "",
-            "/incidentManagement/dashboard"
-    );
+    // window.history.replaceState(
+    //     {
+    //         ...state,
+    //         incidentHistory: "exit-guard",
+    //     },
+    //     "",
+    //         "/incidentManagement/dashboard"
+    // );
 
     /*
      * Create the real Dashboard entry after the guard.
      */
-    window.history.pushState(
-        {
-            ...window.history.state,
-            incidentHistory: "dashboard",
-        },
-        "",
-       "/incidentManagement/dashboard"
+    // window.history.pushState(
+    //     {
+    //         ...window.history.state,
+    //         incidentHistory: "dashboard",
+    //     },
+    //     "",
+    //    "/incidentManagement/dashboard"
 
-    );
+    // );
 }, [location.pathname]);
 
 
