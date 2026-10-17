@@ -32,7 +32,7 @@ export default defineConfig({
                 display: "standalone",
                 orientation: "portrait",
                 scope: "/incidentManagement/",
-                start_url: "/incidentManagement/",
+                start_url: "/incidentManagement/#/dashboard",
 
                 icons: [
                     {

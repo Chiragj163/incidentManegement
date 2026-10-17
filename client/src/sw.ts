@@ -3,7 +3,7 @@
 import { precacheAndRoute } from "workbox-precaching";
 
 const sw = self as unknown as ServiceWorkerGlobalScope;
-const APP_VERSION = "2026-10-16-1600";
+const APP_VERSION = "2026-10-17-hash-routing";
 
 console.log("SW VERSION:", APP_VERSION);
 
@@ -52,9 +52,22 @@ sw.addEventListener(
         const notificationData =
             event.notification.data || {};
 
-        const url =
-            notificationData.url ||
-            "/incidentManagement/notifications";
+        const requestedUrl =
+            typeof notificationData.url === "string"
+                ? notificationData.url
+                : "/dashboard";
+        const destination = new URL(
+            requestedUrl,
+            sw.location.origin
+        );
+        const appBasePath = "/incidentManagement";
+        const routePath =
+            destination.origin !== sw.location.origin
+                ? "/dashboard"
+                : destination.pathname.startsWith(`${appBasePath}/`)
+                  ? destination.pathname.slice(appBasePath.length)
+                  : destination.pathname;
+        const url = `${appBasePath}/#${routePath}${destination.search}`;
 
         event.waitUntil(
             sw.clients
