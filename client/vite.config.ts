@@ -12,7 +12,7 @@ export default defineConfig({
         react(),
 
         VitePWA({
-            registerType: "prompt",
+            registerType: "autoUpdate",
 
             strategies: "injectManifest",
 
