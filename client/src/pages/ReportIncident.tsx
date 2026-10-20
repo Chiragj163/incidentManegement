@@ -1,4 +1,4 @@
-import { useEffect, useState,  useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   createIncident,
@@ -111,49 +111,46 @@ const ReportIncident = () => {
   const [success, setSuccess] = useState("");
   const currentUser = getCurrentUser();
   const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
+  const canSelectOrigin = currentUser?.role === "SUPER_ADMIN" || currentUser?.role === "DEPARTMENT_ADMIN";
   
   // ── 1. Init User & Site Check ───────────────────────────────────────
- useEffect(() => {
+  useEffect(() => {
     if (!currentUser) {
-        setError("User session not found. Please log in again.");
-        return;
+      setError("User session not found. Please log in again.");
+      return;
     }
 
     if (!isSuperAdmin) {
-        if (
-            currentUser.siteId === null ||
-            currentUser.siteId === undefined
-        ) {
-            setError(
-                "Your account is not assigned to any site. Contact an administrator."
-            );
-            return;
-        }
-
-        setFromSiteId(String(currentUser.siteId));
+      if (currentUser.siteId === null || currentUser.siteId === undefined) {
+        setError("Your account is not assigned to any site. Contact an administrator.");
+        return;
+      }
+      setFromSiteId(String(currentUser.siteId));
     }
-}, []);
+  }, []);
+
   // ── 2. Load Sites ───────────────────────────────────────────────────
-    useEffect(() => {
+  useEffect(() => {
     const loadSites = async () => {
-        try {
-            const data = await getSites();
-            setSites(data);
-        } catch (error) {
-            if (error instanceof Error) {
-                setError(error.message);
-            } else {
-                setError("Failed to load sites");
-            }
-        } finally {
-            setLoadingSites(false);
+      try {
+        const data = await getSites();
+        setSites(data);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Failed to load sites");
         }
+      } finally {
+        setLoadingSites(false);
+      }
     };
 
     loadSites();
-}, []);
+  }, []);
+
   // ── 3. Cascading: From Site -> From Depts ───────────────────────────
- useEffect(() => {
+  useEffect(() => {
     setFromDepartmentId("");
     setFromSubDepartmentId("");
     setFromDepartments([]);
@@ -162,143 +159,108 @@ const ReportIncident = () => {
     if (!fromSiteId) return;
 
     const loadDepts = async () => {
-        try {
-            const data = await getDepartments(Number(fromSiteId));
+      try {
+        const data = await getDepartments(Number(fromSiteId));
+        setFromDepartments(data);
 
-            setFromDepartments(data);
+        if (
+          currentUser &&
+          !isSuperAdmin &&
+          currentUser.departmentId !== null &&
+          currentUser.siteId !== null &&
+          Number(currentUser.siteId) === Number(fromSiteId)
+        ) {
+          const departmentExists = data.some(
+            (department) => Number(department.id) === Number(currentUser.departmentId)
+          );
 
-            if (
-                currentUser &&
-                !isSuperAdmin &&
-                currentUser.departmentId !== null &&
-                currentUser.siteId !== null &&
-                Number(currentUser.siteId) === Number(fromSiteId)
-            ) {
-                const departmentExists = data.some(
-                    (department) =>
-                        Number(department.id) ===
-                        Number(currentUser.departmentId)
-                );
-
-                if (departmentExists) {
-                    setFromDepartmentId(
-                        String(currentUser.departmentId)
-                    );
-                }
-            }
-        } catch (err) {
-            console.error(
-                "Failed to load origin departments:",
-                err
-            );
+          if (departmentExists) {
+            setFromDepartmentId(String(currentUser.departmentId));
+          }
         }
+      } catch (err) {
+        console.error("Failed to load origin departments:", err);
+      }
     };
 
     loadDepts();
-}, [fromSiteId]);
+  }, [fromSiteId]);
+
   // ── 4. Cascading: To Site -> To Departments ─────────────────────────
-useEffect(() => {
+  useEffect(() => {
     setToDepartmentId("");
     setToSubDepartmentId("");
     setToDepartments([]);
     setToSubDepartments([]);
 
-    if (!toSiteId) {
-        return;
-    }
+    if (!toSiteId) return;
 
     const loadDepartments = async () => {
-        try {
-            const data = await getDepartments(Number(toSiteId));
-
-            setToDepartments(data);
-        } catch (err) {
-            console.error(
-                "Failed to load target departments:",
-                err
-            );
-        }
+      try {
+        const data = await getDepartments(Number(toSiteId));
+        setToDepartments(data);
+      } catch (err) {
+        console.error("Failed to load target departments:", err);
+      }
     };
 
     loadDepartments();
-}, [toSiteId]);
+  }, [toSiteId]);
 
-
-// ── 5. Cascading: To Department -> To SubDepartments ────────────────
-useEffect(() => {
+  // ── 5. Cascading: To Department -> To SubDepartments ────────────────
+  useEffect(() => {
     setToSubDepartmentId("");
     setToSubDepartments([]);
 
-    if (!toDepartmentId) {
-        return;
-    }
+    if (!toDepartmentId) return;
 
     const loadSubDepartments = async () => {
-        try {
-            const data = await getSubDepartments(
-                Number(toDepartmentId)
-            );
-
-            setToSubDepartments(data);
-        } catch (err) {
-            console.error(
-                "Failed to load target sub-departments:",
-                err
-            );
-        }
+      try {
+        const data = await getSubDepartments(Number(toDepartmentId));
+        setToSubDepartments(data);
+      } catch (err) {
+        console.error("Failed to load target sub-departments:", err);
+      }
     };
 
     loadSubDepartments();
-}, [toDepartmentId]);
+  }, [toDepartmentId]);
 
-
-// ── 6. Cascading: From Dept -> From SubDepts ─────────────────────────
-useEffect(() => {
+  // ── 6. Cascading: From Dept -> From SubDepts ─────────────────────────
+  useEffect(() => {
     setFromSubDepartmentId("");
     setFromSubDepartments([]);
 
-    if (!fromDepartmentId) {
-        return;
-    }
+    if (!fromDepartmentId) return;
 
     const loadSubDepartments = async () => {
-        try {
-            const data = await getSubDepartments(
-                Number(fromDepartmentId)
-            );
+      try {
+        const data = await getSubDepartments(Number(fromDepartmentId));
+        setFromSubDepartments(data);
 
-            setFromSubDepartments(data);
+        if (
+          currentUser &&
+          !isSuperAdmin &&
+          currentUser.departmentId !== null &&
+          currentUser.subDepartmentId !== null &&
+          Number(currentUser.departmentId) === Number(fromDepartmentId)
+        ) {
+          const subDepartmentExists = data.some(
+            (subDepartment) => Number(subDepartment.id) === Number(currentUser.subDepartmentId)
+          );
 
-            if (
-                currentUser &&
-                !isSuperAdmin &&
-                currentUser.departmentId !== null &&
-                currentUser.subDepartmentId !== null &&
-                Number(currentUser.departmentId) ===
-                    Number(fromDepartmentId)
-            ) {
-                const subDepartmentExists = data.some(
-                    (subDepartment) =>
-                        Number(subDepartment.id) ===
-                        Number(currentUser.subDepartmentId)
-                );
-
-                if (subDepartmentExists) {
-                    setFromSubDepartmentId(
-                        String(currentUser.subDepartmentId)
-                    );
-                }
-            }
-        } catch (err) {
-            console.error(
-                "Failed to load origin sub-departments:",
-                err
-            );
+          if (subDepartmentExists) {
+            setFromSubDepartmentId(String(currentUser.subDepartmentId));
+          }
         }
+      } catch (err) {
+        console.error("Failed to load origin sub-departments:", err);
+      }
     };
 
     loadSubDepartments();
-}, [fromDepartmentId]);
+  }, [fromDepartmentId]);
+
   // ── File Management ─────────────────────────────────────────────────
   const validateAndAddFiles = (fileList: File[]) => {
     setFileError("");
@@ -360,7 +322,7 @@ useEffect(() => {
         priority
       });
 
-      const createdIncident = result.data?.incident || result.incident || result.data;
+      const createdIncident = (result as any).data?.incident || (result as any).incident || (result as any).data;
       const incidentId = createdIncident?.id || createdIncident?.incident_id;
 
       if (!incidentId) {
@@ -393,10 +355,6 @@ useEffect(() => {
         <button type="button" className="btn-back" onClick={() => navigate("/incidents")}>
           <Icons.Back /> <span>Incidents Directory</span>
         </button>
-        {/* <div className="report-title-row">
-          <h1>Report New Incident</h1>
-          <p>Initialize an operational ticket to escalate or re-route facility issues.</p>
-        </div> */}
       </div>
 
       {/* ── Alerts ── */}
@@ -418,94 +376,79 @@ useEffect(() => {
         <div className="form-card">
           <div className="card-header">
             <h2>1. Facility Routing Architecture</h2>
-            {/* <span className="card-subtitle">Define where the issue emerged and which team resolves it</span> */}
           </div>
 
-          <div className="routing-pipeline">
-          {/* Origin Node */}
-          {(currentUser?.role === "SUPER_ADMIN" ||
-            currentUser?.role === "DEPARTMENT_ADMIN") && (
-            <div className="routing-card origin-card">
-              <div className="node-indicator">
-                <span className="node-tag">Origin</span>
-                <h3>From (Reporting Unit)</h3>
-              </div>
-
-              <div className="fields-stack">
-                <div className="form-group">
-                  <label>Facility Site *</label>
-                  <select
-                    value={fromSiteId}
-                    onChange={(e) => setFromSiteId(e.target.value)}
-                    disabled={!isSuperAdmin}
-                    className={!isSuperAdmin ? "select-locked" : ""}
-                  >
-                    <option value="">Select source site...</option>
-
-                    {sites.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.site_name}
-                      </option>
-                    ))}
-                  </select>
+          <div className={`routing-pipeline ${!canSelectOrigin ? "single-target" : ""}`}>
+            {/* Origin Node */}
+            {canSelectOrigin && (
+              <div className="routing-card origin-card">
+                <div className="node-indicator">
+                  <span className="node-tag">Origin</span>
+                  <h3>From (Reporting Unit)</h3>
                 </div>
 
-                <div className="form-group">
-                  <label>Department *</label>
-                  <select
-                    value={fromDepartmentId}
-                    onChange={(e) => setFromDepartmentId(e.target.value)}
-                    disabled={
-                      !fromSiteId ||
-                      currentUser?.role !== "SUPER_ADMIN"
-                    }
-                  >
-                    <option value="">
-                      {!fromSiteId
-                        ? "Select site first..."
-                        : "Select department..."}
-                    </option>
+                <div className="fields-stack">
+                  <div className="form-group">
+                    <label>Facility Project *</label>
+                    <select
+                      value={fromSiteId}
+                      onChange={(e) => setFromSiteId(e.target.value)}
+                      disabled={!isSuperAdmin}
+                      className={!isSuperAdmin ? "select-locked" : ""}
+                    >
+                      <option value="">Select source site...</option>
+                      {sites.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.site_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                    {fromDepartments.map((d) => (
-                      <option key={d.id} value={d.id}>
-                        {d.department_name}
+                  <div className="form-group">
+                    <label>Department *</label>
+                    <select
+                      value={fromDepartmentId}
+                      onChange={(e) => setFromDepartmentId(e.target.value)}
+                      disabled={!fromSiteId || currentUser?.role !== "SUPER_ADMIN"}
+                    >
+                      <option value="">
+                        {!fromSiteId ? "Select site first..." : "Select department..."}
                       </option>
-                    ))}
-                  </select>
-                </div>
+                      {fromDepartments.map((d) => (
+                        <option key={d.id} value={d.id}>
+                          {d.department_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                <div className="form-group">
-                  <label>Sub-Department (Optional)</label>
-                  <select
-                    value={fromSubDepartmentId}
-                    onChange={(e) =>
-                      setFromSubDepartmentId(e.target.value)
-                    }
-                    disabled={
-                      !fromDepartmentId ||
-                      currentUser?.role !== "SUPER_ADMIN"
-                    }
-                  >
-                    <option value="">None / General</option>
-
-                    {fromSubDepartments.map((sd) => (
-                      <option key={sd.id} value={sd.id}>
-                        {sd.sub_department_name}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="form-group">
+                    <label>Sub-Department</label>
+                    <select
+                      value={fromSubDepartmentId}
+                      onChange={(e) => setFromSubDepartmentId(e.target.value)}
+                      disabled={!fromDepartmentId || currentUser?.role !== "SUPER_ADMIN"}
+                    >
+                      <option value="">None / General</option>
+                      {fromSubDepartments.map((sd) => (
+                        <option key={sd.id} value={sd.id}>
+                          {sd.sub_department_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
-          </div>
-          )}
-          {(currentUser?.role === "SUPER_ADMIN" ||
-            currentUser?.role === "DEPARTMENT_ADMIN") && (
-                      <div className="pipeline-connector">
-                        <div className="connector-circle">
-                          <Icons.ArrowRight />
-                        </div>
-                      </div>
-          )}
+            )}
+
+            {canSelectOrigin && (
+              <div className="pipeline-connector">
+                <div className="connector-circle">
+                  <Icons.ArrowRight />
+                </div>
+              </div>
+            )}
 
             {/* Destination Node */}
             <div className="routing-card dest-card">
@@ -516,13 +459,11 @@ useEffect(() => {
 
               <div className="fields-stack">
                 <div className="form-group">
-                  <label>Facility Site *</label>
+                  <label>Facility Project *</label>
                   <select
                     value={toSiteId}
                     onChange={(e) => setToSiteId(e.target.value)}
-                    disabled={
-                        loadingSites
-                    }
+                    disabled={loadingSites}
                   >
                     <option value="">Select target site...</option>
                     {sites.map((s) => (
@@ -552,7 +493,7 @@ useEffect(() => {
                 </div>
 
                 <div className="form-group">
-                  <label>Sub-Department (Optional)</label>
+                  <label>Sub-Department</label>
                   <select
                     value={toSubDepartmentId}
                     onChange={(e) => setToSubDepartmentId(e.target.value)}
@@ -560,23 +501,23 @@ useEffect(() => {
                   >
                     <option value="">None / General</option>
                     {toSubDepartments.map((sd) => {
-                        const isOwnSubDepartment =
-                            currentUser?.role === "USER" &&
-                            currentUser?.departmentId !== null &&
-                            currentUser?.subDepartmentId !== null &&
-                            Number(currentUser.departmentId) === Number(toDepartmentId) &&
-                            Number(currentUser.subDepartmentId) === Number(sd.id);
+                      const isOwnSubDepartment =
+                        currentUser?.role === "USER" &&
+                        currentUser?.departmentId !== null &&
+                        currentUser?.subDepartmentId !== null &&
+                        Number(currentUser.departmentId) === Number(toDepartmentId) &&
+                        Number(currentUser.subDepartmentId) === Number(sd.id);
 
-                        return (
-                            <option
-                                key={sd.id}
-                                value={sd.id}
-                                disabled={isOwnSubDepartment}
-                            >
-                                {sd.sub_department_name}
-                                {isOwnSubDepartment ? " (Your Sub-Department)" : ""}
-                            </option>
-                        );
+                      return (
+                        <option
+                          key={sd.id}
+                          value={sd.id}
+                          disabled={isOwnSubDepartment}
+                        >
+                          {sd.sub_department_name}
+                          {isOwnSubDepartment ? " (Your Sub-Department)" : ""}
+                        </option>
+                      );
                     })}
                   </select>
                 </div>
@@ -589,7 +530,6 @@ useEffect(() => {
         <div className="form-card">
           <div className="card-header">
             <h2>2. Incident Diagnostics</h2>
-            {/* <span className="card-subtitle">State the nature, impact, and critical priority</span> */}
           </div>
 
           <div className="form-section-body">
@@ -654,8 +594,7 @@ useEffect(() => {
         {/* ── SECTION 3: ATTACHMENTS ── */}
         <div className="form-card">
           <div className="card-header">
-            <h2>3. Evidence & Documentation</h2>
-            {/* <span className="card-subtitle">Attach schematics, diagnostic reports, or photos</span> */}
+            <h2>3. Attachments</h2>
           </div>
 
           <div className="form-section-body">
@@ -748,7 +687,7 @@ useEffect(() => {
             Cancel
           </button>
           <button type="submit" className="btn-submit" disabled={loading}>
-            {loading ? "Submitting Incident..." : "Dispatch Incident Ticket"}
+            {loading ? "Submitting Incident..." : "Create Incident Ticket"}
           </button>
         </div>
       </form>
